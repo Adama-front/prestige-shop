@@ -13,13 +13,13 @@ const slides = [
       "Découvrez notre collection exclusive de montres pour sublimer votre style."
   },
   {
-    image: "/images/hero/hero_1.jpg",
+    image: "/images/hero/hero_2.jpg",
     title: "L'Accessoire Indispensable",
     subtitle:
       "Ajoutez une touche de sophistication avec nos sacs à main raffinés."
   },
   {
-    image: "/images/hero/hero_1.jpg",
+    image: "/images/hero/hero_3.jpg",
     title: "Féminité et Charme",
     subtitle:
       "Craquez pour nos robes élégantes, parfaites pour toutes les occasions."

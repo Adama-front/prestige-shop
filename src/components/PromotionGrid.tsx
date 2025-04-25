@@ -58,33 +58,33 @@ export default function PromotionGrid() {
   const promotions: Promotion[] = [
     {
       id: 1,
-      title: "Women's Style",
-      subtitle: "Up to 70% Off",
-      image: "/images/categories/category_1.jpg",
+      title: "Style Femme",
+      subtitle: "Jusqu'à 70% de réduction",
+      image: "/images/offre/offre_1.jpg",
       link: "/shop/women",
       size: "large"
     },
     {
       id: 2,
-      title: "Handbag",
-      discount: "35% OFF",
-      image: "/images/categories/category_1.jpg",
+      title: "Sacs à main",
+      discount: "35% de réduction",
+      image: "/images/offre/offre_2.jpg",
       link: "/shop/handbags",
       size: "medium"
     },
     {
       id: 3,
-      title: "Watch",
-      discount: "45% OFF",
-      image: "/images/categories/category_1.jpg",
+      title: "Montres",
+      discount: "45% de réduction",
+      image: "/images/offre/offre_3.jpg",
       link: "/shop/watches",
       size: "medium"
     },
     {
       id: 4,
-      title: "Backpack",
-      subtitle: "Min. 40-60% Off",
-      image: "/images/categories/category_1.jpg",
+      title: "Sacs à dos",
+      subtitle: "Entre 40% et 60% de réduction",
+      image: "/images/offre/offre_4.jpg",
       link: "/shop/backpacks",
       size: "large"
     }

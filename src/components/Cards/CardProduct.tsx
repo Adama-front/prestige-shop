@@ -42,15 +42,18 @@ const CardProduct = ({ product }: ProductCardProps) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="bg-white  shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+        className="bg-white group   shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
       >
         <div className="relative h-28 md:h-48 w-full">
-          <Image
-            src={product.image}
-            alt={product.title}
-            fill
-            className="object-contain p-2 md:p-4"
-          />
+          <Link href={`/products/${product.id}`} className=" overflow-hidden">
+            <Image
+              src={product.image}
+              alt={product.title}
+              fill
+              className="object-contain p-2 md:p-4 group-hover:scale-105 duration-300 transition-transform"
+            />
+          </Link>
+
           <div className=" absolute right-1 top-2 rotate-45">
             {" "}
             <div className="md:hidden flex items-center gap-x-1 bg-green-50 p-1">
