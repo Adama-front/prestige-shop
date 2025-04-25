@@ -1,6 +1,5 @@
 "use client";
 
-import image_pro from "@/images/categories/category_1.jpg";
 import { motion } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
@@ -10,7 +9,7 @@ interface Promotion {
   title: string;
   subtitle?: string;
   discount?: string;
-  image: StaticImageData;
+  image: StaticImageData | string;
   link: string;
   size?: "large" | "medium" | "small";
 }
@@ -26,6 +25,8 @@ const PromotionCard = ({ promotion }: { promotion: Promotion }) => {
       <Image
         src={promotion.image}
         alt={promotion.title}
+        width={800}
+        height={600}
         className="transition-transform w-full h-full duration-500 group-hover:scale-110 object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 flex flex-col justify-center items-center text-white p-4 text-center">
@@ -59,7 +60,7 @@ export default function PromotionGrid() {
       id: 1,
       title: "Women's Style",
       subtitle: "Up to 70% Off",
-      image: image_pro,
+      image: "/images/categories/category_1.jpg",
       link: "/shop/women",
       size: "large"
     },
@@ -67,7 +68,7 @@ export default function PromotionGrid() {
       id: 2,
       title: "Handbag",
       discount: "35% OFF",
-      image: image_pro,
+      image: "/images/categories/category_1.jpg",
       link: "/shop/handbags",
       size: "medium"
     },
@@ -75,7 +76,7 @@ export default function PromotionGrid() {
       id: 3,
       title: "Watch",
       discount: "45% OFF",
-      image: image_pro,
+      image: "/images/categories/category_1.jpg",
       link: "/shop/watches",
       size: "medium"
     },
@@ -83,7 +84,7 @@ export default function PromotionGrid() {
       id: 4,
       title: "Backpack",
       subtitle: "Min. 40-60% Off",
-      image: image_pro,
+      image: "/images/categories/category_1.jpg",
       link: "/shop/backpacks",
       size: "large"
     }
@@ -100,8 +101,8 @@ export default function PromotionGrid() {
             </h2>
             <p className="text-sm text-gray-600 text-center max-w-xl">
               Découvrez nos promotions irrésistibles sur les articles
-              tendance.Profitez de réductions exceptionnelles avant qu’il ne
-              soit trop tard !
+              tendance.Profitez de réductions exceptionnelles avant qu&apos;il
+              ne soit trop tard !
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

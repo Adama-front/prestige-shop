@@ -1,27 +1,25 @@
 "use client";
-import image_3 from "@/images/hero/hero_1.jpg";
-import image_2 from "@/images/hero/hero_2.jpg";
-import image_1 from "@/images/hero/hero_3.jpg";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+// import image_1 from "/images/hero/hero_3.jpg";
 
 // Déplacement des données `slides` hors du composant
 const slides = [
   {
-    image: image_1,
+    image: "/images/hero/hero_1.jpg",
     title: "Élégance et Précision",
     subtitle:
       "Découvrez notre collection exclusive de montres pour sublimer votre style."
   },
   {
-    image: image_2,
+    image: "/images/hero/hero_1.jpg",
     title: "L'Accessoire Indispensable",
     subtitle:
       "Ajoutez une touche de sophistication avec nos sacs à main raffinés."
   },
   {
-    image: image_3,
+    image: "/images/hero/hero_1.jpg",
     title: "Féminité et Charme",
     subtitle:
       "Craquez pour nos robes élégantes, parfaites pour toutes les occasions."
@@ -55,7 +53,10 @@ const Hero = () => {
           <Image
             src={slide.image}
             alt={slide.title}
+            width={1920}
+            height={1080}
             className="h-full w-full object-cover object-top"
+            priority={index === 0}
           />
 
           {/* Texte et contenu */}

@@ -43,12 +43,12 @@ body {
 
 .bgHeroPromos {
   background: linear-gradient(rgba(0, 0, 0, 0.646), rgba(0, 0, 0, 0.646)),
-    url("../images/hero/hero_3.jpg") center center no-repeat fixed;
+    url("../../public/images/hero/hero_3.jpg") center center no-repeat fixed;
   background-size: cover;
 }
 
 .bgHeroNewArrivals {
   background: linear-gradient(rgba(0, 0, 0, 0.646), rgba(0, 0, 0, 0.646)),
-    url("../images/hero/hero_2.jpg") center center no-repeat fixed;
+    url("../../public/images/hero/hero_2.jpg") center center no-repeat fixed;
   background-size: cover;
 }
