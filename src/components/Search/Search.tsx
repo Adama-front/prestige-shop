@@ -4,8 +4,9 @@ import { fetchProducts, sortProducts } from "@/store/slices/productsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/types";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import CardProduct from "../Cards/CardProduct";
+import { SearchSkeleton } from "../ui/SearchSkeleton";
 
 const SearchPage = () => {
   const dispatch = useAppDispatch();
@@ -14,10 +15,18 @@ const SearchPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
   const [maxPrice, setMaxPrice] = useState(1000);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Chargement initial des produits
   useEffect(() => {
-    dispatch(fetchProducts());
+    const loadProducts = async () => {
+      try {
+        await dispatch(fetchProducts());
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadProducts();
   }, [dispatch]);
 
   // Calcul du prix maximum
@@ -71,6 +80,10 @@ const SearchPage = () => {
     setSelectedCategory(category);
   };
 
+  if (isLoading) {
+    return <SearchSkeleton />;
+  }
+
   return (
     <section className="pb-16 pt-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,111 +92,117 @@ const SearchPage = () => {
             Recherche Facile, Résultats Parfaits
           </h1>
         </div>
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Filtres */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="lg:w-64 flex-shrink-0"
-          >
-            <div className="bg-white p-4 shadow-md">
-              <h2 className="text-xl font-semibold text-[#2ECC71] mb-4">
-                Filtres
-              </h2>
-
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Catégorie
-                  </label>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => handleCategoryChange(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2ECC71]"
-                  >
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category.charAt(0).toUpperCase() + category.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Prix maximum : {maxPrice}€
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max={Math.max(...products.map((p) => p.price))}
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(Number(e.target.value))}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Trier par
-                  </label>
-                  <select
-                    value={sortOption}
-                    onChange={(e) => handleSortChange(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2ECC71]"
-                  >
-                    <option value="default">Par défaut</option>
-                    <option value="price-low-high">Prix : croissant</option>
-                    <option value="price-high-low">Prix : décroissant</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Contenu principal */}
-          <div className="flex-1">
-            {/* Barre de recherche */}
+        <Suspense fallback={<SearchSkeleton />}>
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Filtres */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="mb-8"
+              className="lg:w-64 flex-shrink-0"
             >
-              <div className="max-w-xl">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Rechercher un produit..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2ECC71] pl-10"
-                  />
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <div className="bg-white p-4 shadow-md">
+                <h2 className="text-xl font-semibold text-[#2ECC71] mb-4">
+                  Filtres
+                </h2>
+
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Catégorie
+                    </label>
+                    <select
+                      value={selectedCategory}
+                      onChange={(e) => handleCategoryChange(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2ECC71]"
+                    >
+                      {categories.map((category) => (
+                        <option key={category} value={category}>
+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Prix maximum : {maxPrice}€
+                    </label>
+                    <input
+                      type="range"
+                      min="0"
+                      max={Math.max(...products.map((p) => p.price))}
+                      value={maxPrice}
+                      onChange={(e) => setMaxPrice(Number(e.target.value))}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Trier par
+                    </label>
+                    <select
+                      value={sortOption}
+                      onChange={(e) => handleSortChange(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2ECC71]"
+                    >
+                      <option value="default">Par défaut</option>
+                      <option value="price-low-high">Prix : croissant</option>
+                      <option value="price-high-low">Prix : décroissant</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </motion.div>
 
-            {/* Résultats */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            >
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product) => (
-                  <CardProduct key={product.id} product={product} />
-                ))
-              ) : (
-                <div className="col-span-full text-center py-12">
-                  <p className="text-xl text-gray-600">Aucun produit trouvé</p>
+            {/* Contenu principal */}
+            <div className="flex-1">
+              {/* Barre de recherche */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mb-8"
+              >
+                <div className="max-w-xl">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Rechercher un produit..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2ECC71] pl-10"
+                    />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  </div>
                 </div>
-              )}
-            </motion.div>
+              </motion.div>
+
+              {/* Résultats */}
+              <Suspense fallback={<SearchSkeleton />}>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                >
+                  {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product) => (
+                      <CardProduct key={product.id} product={product} />
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center py-12">
+                      <p className="text-xl text-gray-600">
+                        Aucun produit trouvé
+                      </p>
+                    </div>
+                  )}
+                </motion.div>
+              </Suspense>
+            </div>
           </div>
-        </div>
+        </Suspense>
       </div>
     </section>
   );

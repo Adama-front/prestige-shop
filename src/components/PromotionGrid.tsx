@@ -1,8 +1,10 @@
 "use client";
 
+import { useDelayedLoading } from "@/hooks/useDelayedLoading";
 import { motion } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
+import { PromotionSkeleton } from "./ui/PromotionSkeleton";
 
 interface Promotion {
   id: number;
@@ -15,6 +17,12 @@ interface Promotion {
 }
 
 const PromotionCard = ({ promotion }: { promotion: Promotion }) => {
+  const isLoading = useDelayedLoading();
+
+  if (isLoading) {
+    return <PromotionSkeleton />;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -29,17 +37,19 @@ const PromotionCard = ({ promotion }: { promotion: Promotion }) => {
         height={600}
         className="transition-transform w-full h-full duration-500 group-hover:scale-110 object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 flex flex-col justify-center items-center text-white p-4 text-center">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 flex flex-col justify-center items-center text-white p-2 md:p-4 text-center">
         {promotion.discount && (
           <motion.span
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="bg-blue-400 text-white px-3 py-1.5 text-xs font-bold  mb-2"
+            className="bg-blue-400 text-white px-2 md:px-3 py-1.5 text-xs font-bold  mb-2"
           >
             {promotion.discount}
           </motion.span>
         )}
-        <h2 className="text-2xl font-bold mb-2">{promotion.title}</h2>
+        <h2 className="md:text-2xl text-xl font-bold mb-2">
+          {promotion.title}
+        </h2>
         {promotion.subtitle && (
           <p className="text-sm mb-4">{promotion.subtitle}</p>
         )}
@@ -55,6 +65,7 @@ const PromotionCard = ({ promotion }: { promotion: Promotion }) => {
 };
 
 export default function PromotionGrid() {
+  const isLoading = useDelayedLoading();
   const promotions: Promotion[] = [
     {
       id: 1,
@@ -90,6 +101,41 @@ export default function PromotionGrid() {
     }
   ];
 
+  if (isLoading) {
+    return (
+      <section className="bg-white text-black py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="w-full flex flex-col items-center justify-center gap-y-6">
+            <div className="flex flex-col gap-y-2">
+              <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900">
+                Offres Exclusives du Moment
+              </h2>
+              <p className="text-sm text-gray-600 text-center max-w-xl">
+                Découvrez nos promotions irrésistibles sur les articles
+                tendance.Profitez de réductions exceptionnelles avant qu&apos;il
+                ne soit trop tard !
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="h-[190px] md:h-[400px] w-full">
+                <PromotionSkeleton />
+              </div>
+              <div className="grid grid-rows-2 gap-5 w-full">
+                <div className="grid grid-cols-2 gap-5 w-full">
+                  <PromotionSkeleton />
+                  <PromotionSkeleton />
+                </div>
+                <div className="h-[190px] w-full">
+                  <PromotionSkeleton />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="bg-white text-black py-12">
       <div className="max-w-6xl mx-auto  px-4 sm:px-6 lg:px-8">
@@ -105,7 +151,7 @@ export default function PromotionGrid() {
               ne soit trop tard !
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
             {/* Large Promotion */}
             <div className="h-[190px] md:h-[400px]">
               {promotions

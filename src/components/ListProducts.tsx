@@ -5,8 +5,9 @@ import {
   sortProducts
 } from "@/store/slices/productsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/types";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import CardProduct from "./Cards/CardProduct";
+import { ProductSkeleton } from "./ui/ProductSkeleton";
 
 const ListProducts = () => {
   const dispatch = useAppDispatch();
@@ -41,8 +42,10 @@ const ListProducts = () => {
 
   if (status === "loading") {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2ECC71]"></div>
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto  px-4 sm:px-6 lg:px-8">
+        {[...Array(8)].map((_, index) => (
+          <ProductSkeleton key={index} />
+        ))}
       </div>
     );
   }
@@ -107,11 +110,21 @@ const ListProducts = () => {
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product: Product) => (
-              <CardProduct key={product.id} product={product} />
-            ))}
-          </div>
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {[...Array(8)].map((_, index) => (
+                  <ProductSkeleton key={index} />
+                ))}
+              </div>
+            }
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {filteredProducts.map((product: Product) => (
+                <CardProduct key={product.id} product={product} />
+              ))}
+            </div>
+          </Suspense>
 
           {/* No Results Message */}
           {filteredProducts.length === 0 && (
