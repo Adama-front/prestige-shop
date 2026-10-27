@@ -18,7 +18,7 @@ const SearchPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
   const [maxPrice, setMaxPrice] = useState(1000);
-  const isLoading = status === "idle" || status === "loading";
+  const isLoading = products.length === 0 && (status === "idle" || status === "loading");
 
   // Chargement initial des produits
   useEffect(() => {
@@ -73,7 +73,7 @@ const SearchPage = () => {
     setSelectedCategory(category);
   };
 
-  if (status === "failed") return <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3"><p>{error}</p><button onClick={() => dispatch(fetchProducts())} className="bg-[#F98909] px-4 py-2 text-[#171B18]">Réessayer</button></div>;
+  if (status === "failed" && products.length === 0) return <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3" role="alert"><p>{error || "Impossible de charger les produits."}</p><button onClick={() => dispatch(fetchProducts())} className="bg-[#F98909] px-4 py-2 text-[#171B18]">Réessayer</button></div>;
   if (isLoading) {
     return <SearchSkeleton />;
   }
@@ -81,6 +81,12 @@ const SearchPage = () => {
   return (
     <section className="pb-16 pt-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {status === "failed" && products.length > 0 && (
+          <div className="mb-6 border border-[#DCE1D8] bg-[#F5F5EF] p-3 text-sm text-[#171B18]" role="alert">
+            <p>{error || "Impossible d’actualiser les produits."}</p>
+            <button type="button" onClick={() => dispatch(fetchProducts())} className="mt-2 font-semibold text-[#CC6500] underline">Réessayer</button>
+          </div>
+        )}
         <div className="flex w-full items-center justify-center">
           <motion.h1 {...scrollReveal("up", prefersReducedMotion)} className="text-3xl md:text-5xl font-extrabold text-[#F98909] mb-6 text-center ">
             Recherche Facile, Résultats Parfaits
@@ -182,7 +188,7 @@ const SearchPage = () => {
                   ) : (
                     <div className="col-span-full text-center py-12">
                       <p className="text-xl text-gray-600">
-                        Aucun produit trouvé
+                        {searchQuery || selectedCategory !== "all" || maxPrice < Math.max(...products.map((product) => product.price)) ? "Aucun produit ne correspond à ces filtres." : "Aucun produit disponible pour le moment."}
                       </p>
                     </div>
                   )}

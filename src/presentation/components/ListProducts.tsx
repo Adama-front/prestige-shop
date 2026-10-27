@@ -15,7 +15,7 @@ const ListProducts = () => {
   const dispatch = useAppDispatch();
   const prefersReducedMotion = useReducedMotion();
   const { items, status, error } = useAppSelector((state) => state.products);
-  const isProductsLoading = status === "idle" || status === "loading";
+  const isProductsLoading = items.length === 0 && (status === "idle" || status === "loading");
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sortValue, setSortValue] = useState("");
@@ -44,7 +44,7 @@ const ListProducts = () => {
     return matchesCategory;
   }).sort((a, b) => sortValue === "price-low-high" ? a.price - b.price : sortValue === "price-high-low" ? b.price - a.price : 0);
 
-  if (status === "failed")
+  if (status === "failed" && items.length === 0)
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-red-500 text-center">
@@ -63,6 +63,12 @@ const ListProducts = () => {
     >
       <div className="max-w-6xl mx-auto  px-4 sm:px-6 lg:px-8">
         <div className="w-full flex flex-col items-center justify-center gap-y-6">
+          {status === "failed" && items.length > 0 && (
+            <div className="w-full border border-[#DCE1D8] bg-[#F5F5EF] p-3 text-sm text-[#171B18]" role="alert">
+              <p>{error || "Impossible d’actualiser les produits."}</p>
+              <button type="button" onClick={() => dispatch(fetchProducts())} className="mt-2 font-semibold text-[#CC6500] underline">Réessayer</button>
+            </div>
+          )}
           <div className="flex w-full items-center justify-center">
             {isProductsLoading ? (
               <Skeleton className="h-8 w-72 max-w-[90vw] md:h-10" />
@@ -151,7 +157,7 @@ const ListProducts = () => {
           {!isProductsLoading && filteredProducts.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-500 text-lg">
-                Aucun produit ne correspond à votre recherche
+                {selectedCategory ? "Aucun produit dans cette catégorie." : "Aucun produit disponible pour le moment."}
               </p>
             </div>
           )}
