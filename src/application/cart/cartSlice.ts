@@ -13,8 +13,29 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<AddCartItemInput>) => {
-      const { id, quantity = 1 } = action.payload;
+      const payload = action.payload;
+      if (!payload || typeof payload !== "object") return;
+
+      const { id, quantity = 1 } = payload;
+      if (
+        typeof id !== "string" ||
+        !id.trim() ||
+        typeof payload.name !== "string" ||
+        !payload.name.trim() ||
+        typeof payload.image !== "string" ||
+        !payload.image.trim() ||
+        !Number.isFinite(payload.price) ||
+        payload.price < 0 ||
+        !Number.isSafeInteger(quantity) ||
+        quantity < 1
+      ) {
+        return;
+      }
+
       const existingItem = state.items.find((item) => item.id === id);
+      if (existingItem && !Number.isSafeInteger(existingItem.quantity + quantity)) {
+        return;
+      }
 
       if (existingItem) {
         existingItem.quantity += quantity;
@@ -28,7 +49,9 @@ const cartSlice = createSlice({
       );
 
       // Calculer les frais de livraison en fonction du total
-      state.shippingCost = calculateShippingCost(state.total);
+      state.shippingCost = state.items.length
+        ? calculateShippingCost(state.total)
+        : 0;
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
@@ -38,7 +61,9 @@ const cartSlice = createSlice({
       );
 
       // Recalculer les frais de livraison
-      state.shippingCost = calculateShippingCost(state.total);
+      state.shippingCost = state.items.length
+        ? calculateShippingCost(state.total)
+        : 0;
     },
     updateQuantity: (
       state,
@@ -46,7 +71,7 @@ const cartSlice = createSlice({
     ) => {
       const { id, quantity } = action.payload;
       const item = state.items.find((item) => item.id === id);
-      if (item && quantity > 0) {
+      if (item && Number.isSafeInteger(quantity) && quantity > 0) {
         item.quantity = quantity;
         state.total = state.items.reduce(
           (sum, item) => sum + item.price * item.quantity,
@@ -62,9 +87,6 @@ const cartSlice = createSlice({
       state.total = 0;
       state.shippingCost = 0;
     },
-    updateShippingCost: (state, action: PayloadAction<number>) => {
-      state.shippingCost = action.payload;
-    }
   }
 });
 
@@ -72,8 +94,7 @@ export const {
   addToCart,
   removeFromCart,
   updateQuantity,
-  clearCart,
-  updateShippingCost
+  clearCart
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

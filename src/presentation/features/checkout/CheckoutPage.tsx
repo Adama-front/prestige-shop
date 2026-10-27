@@ -3,7 +3,6 @@ import Alert from "@/presentation/components/ui/Alert";
 import OptimizedImage from "@/presentation/components/ui/OptimizedImage";
 import { useAppSelector } from "@/application/store/hooks";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { formatXof } from "@/shared/utils/formatXof";
 import { motion, useReducedMotion } from "framer-motion";
@@ -23,9 +22,6 @@ const CheckoutContent = () => {
     additionalInfo: ""
   });
   const [showAlert, setShowAlert] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -39,22 +35,38 @@ const CheckoutContent = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (items.length === 0 || isSubmitting) return;
-    setIsSubmitting(true);
     setShowAlert(true);
-    window.setTimeout(() => setIsSubmitting(false), 1500);
   };
 
   const calculateTotal = () => {
     return total + shippingCost;
   };
 
+  if (items.length === 0) {
+    return (
+      <section className="bg-white text-black pt-24 pb-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[60vh] flex flex-col items-center justify-center gap-5 text-center">
+          <motion.h1 {...scrollReveal("up", prefersReducedMotion)} className="text-2xl md:text-3xl font-bold text-gray-900">
+            Votre panier est vide
+          </motion.h1>
+          <p className="max-w-xl text-gray-600">
+            Ajoutez des produits à votre panier avant de préparer une commande.
+          </p>
+          <Link href="/#products" className="bg-[#F98909] text-[#171B18] px-5 py-3 hover:bg-[#D9EC8B] transition-colors duration-300">
+            Explorer nos produits
+          </Link>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <>
       {showAlert && (
         <Alert
-          message="La validation de commande sera disponible après l’intégration du backend. Votre panier est conservé."
+          message="Aucune commande n’a été envoyée. Les informations saisies ne sont ni enregistrées ni transmises. La création de commande sera disponible après l’intégration du backend."
           type="warning"
+          duration={8000}
           onClose={() => setShowAlert(false)}
         />
       )}
@@ -67,10 +79,7 @@ const CheckoutContent = () => {
               </motion.h2>
             </div>
             <div className="w-full flex items-start">
-              <button
-                onClick={() => router.back()}
-                className="md:px-3 md:py-2 py-1.5 px-2 flex items-center gap-x-1 justify-center bg-[#F98909] text-[#171B18]  duration-300 text-xs md:text-sm cursor-pointer hover:bg-[#D9EC8B]  transition-colors"
-              >
+              <Link href="/cart" className="md:px-3 md:py-2 py-1.5 px-2 flex items-center gap-x-1 justify-center bg-[#F98909] text-[#171B18] duration-300 text-xs md:text-sm hover:bg-[#D9EC8B] transition-colors">
                 <svg
                   className="md:w-6 md:h-6 w-5 h-5"
                   aria-hidden="true"
@@ -90,7 +99,7 @@ const CheckoutContent = () => {
                 </svg>
 
                 <span>Retour</span>
-              </button>
+              </Link>
             </div>
 
             <motion.div {...scrollReveal("up", prefersReducedMotion)} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -115,6 +124,8 @@ const CheckoutContent = () => {
                           name="firstName"
                           value={formData.firstName}
                           onChange={handleChange}
+                          autoComplete="given-name"
+                          maxLength={80}
                           required
                           className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
                         />
@@ -132,6 +143,8 @@ const CheckoutContent = () => {
                           name="lastName"
                           value={formData.lastName}
                           onChange={handleChange}
+                          autoComplete="family-name"
+                          maxLength={80}
                           required
                           className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
                         />
@@ -152,6 +165,9 @@ const CheckoutContent = () => {
                           name="phone1"
                           value={formData.phone1}
                           onChange={handleChange}
+                          autoComplete="tel"
+                          inputMode="tel"
+                          maxLength={24}
                           required
                           className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
                         />
@@ -169,6 +185,8 @@ const CheckoutContent = () => {
                           name="phone2"
                           value={formData.phone2}
                           onChange={handleChange}
+                          inputMode="tel"
+                          maxLength={24}
                           className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
                         />
                       </div>
@@ -188,6 +206,8 @@ const CheckoutContent = () => {
                           name="city"
                           value={formData.city}
                           onChange={handleChange}
+                          autoComplete="address-level2"
+                          maxLength={100}
                           required
                           className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
                         />
@@ -205,6 +225,8 @@ const CheckoutContent = () => {
                           name="district"
                           value={formData.district}
                           onChange={handleChange}
+                          autoComplete="address-level3"
+                          maxLength={100}
                           required
                           className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
                         />
@@ -224,6 +246,8 @@ const CheckoutContent = () => {
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
+                        autoComplete="street-address"
+                        maxLength={200}
                         required
                         className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
                       />
@@ -241,6 +265,7 @@ const CheckoutContent = () => {
                         name="additionalInfo"
                         value={formData.additionalInfo}
                         onChange={handleChange}
+                        maxLength={500}
                         rows={3}
                         className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
                         placeholder="Instructions de livraison, points de repère, etc."
@@ -250,10 +275,9 @@ const CheckoutContent = () => {
                     <div className="pt-4">
                       <button
                         type="submit"
-                        disabled={items.length === 0 || isSubmitting}
-                        className={`w-full bg-[#F98909] text-[#171B18] py-3 px-4 cursor-pointer hover:bg-[#D9EC8B] transition-colors duration-300 ${items.length === 0 || isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
+                        className="w-full bg-[#F98909] text-[#171B18] py-3 px-4 cursor-pointer hover:bg-[#D9EC8B] transition-colors duration-300"
                       >
-                        {isSubmitting ? "Vérification..." : "Confirmer la commande"}
+                        Vérifier le formulaire
                       </button>
                     </div>
                   </form>
@@ -286,11 +310,11 @@ const CheckoutContent = () => {
                       </div>
                       <div className="ml-3">
                         <p className="text-sm text-yellow-700 font-medium">
-                          Paiement à la livraison
+                          Commande non envoyée
                         </p>
                         <p className="text-sm text-yellow-600 mt-1">
-                          Le paiement se fera à la livraison de votre commande.
-                          Aucun paiement n&apos;est requis maintenant.
+                          Ce formulaire ne crée aucune commande et ne transmet
+                          aucune donnée. Cette étape sera activée avec le backend.
                         </p>
                       </div>
                     </div>

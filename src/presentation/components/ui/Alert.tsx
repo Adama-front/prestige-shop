@@ -25,7 +25,7 @@ const Alert = ({ message, type, duration = 3000, onClose }: AlertProps) => {
   const bgColor = {
     success: "bg-[#E8EBE3] text-[#171B18] border-[#DCE1D8]",
     error: "bg-red-100 text-red-800 border-red-200",
-    info: "bg-red-100 text-red-800 border-red-200",
+    info: "bg-[#E8EBE3] text-[#171B18] border-[#DCE1D8]",
     warning: "bg-yellow-100 text-yellow-800 border-yellow-200"
   };
 
