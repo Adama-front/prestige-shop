@@ -2,6 +2,7 @@
 "use client";
 import Alert from "@/presentation/components/ui/Alert";
 import { register } from "@/application/auth/authSlice";
+import { registerSchema, type RegisterFormData } from "@/application/auth/authSchemas";
 import { useAppDispatch, useAppSelector } from "@/application/store/hooks";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ const FormRegister = () => {
   const router = useRouter();
   const { status, error } = useAppSelector((state) => state.auth);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterFormData>({
     username: "",
     email: "",
     password: ""
@@ -58,55 +59,37 @@ const FormRegister = () => {
   }, [status, router]);
 
   const validateForm = () => {
-    let isValid = true;
+    const result = registerSchema.safeParse(formData);
     const newErrors = {
       username: "",
       email: "",
       password: ""
     };
 
-    // Username validation
-    if (!formData.username.trim()) {
-      newErrors.username = "Le nom d'utilisateur est requis";
-      isValid = false;
-    }
-
-    // Email validation
-    if (!formData.email) {
-      newErrors.email = "L'email est requis";
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "L'email est invalide";
-      isValid = false;
-    }
-
-    // Password validation
-    if (!formData.password) {
-      newErrors.password = "Le mot de passe est requis";
-      isValid = false;
-    } else if (formData.password.length < 6) {
-      newErrors.password =
-        "Le mot de passe doit contenir au moins 6 caractères";
-      isValid = false;
+    if (!result.success) {
+      for (const issue of result.error.issues) {
+        const field = issue.path[0];
+        if (
+          (field === "username" || field === "email" || field === "password") &&
+          !newErrors[field]
+        ) {
+          newErrors[field] = issue.message;
+        }
+      }
     }
 
     setFormErrors(newErrors);
-    return isValid;
+    return result.success ? result.data : null;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (validateForm() && !isSubmitting && status !== "loading") {
+    const validatedData = validateForm();
+    if (validatedData && !isSubmitting && status !== "loading") {
       setIsSubmitting(true);
       try {
-        const userData = {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password
-        };
-
-        await dispatch(register(userData)).unwrap();
+        await dispatch(register(validatedData)).unwrap();
       } catch (error) {
         void error;
       } finally {
@@ -139,7 +122,7 @@ const FormRegister = () => {
         />
       )}
 
-      <form className="space-y-5" onSubmit={handleSubmit}>
+      <form className="space-y-5" noValidate onSubmit={handleSubmit}>
         <div className="space-y-5">
           <div>
             <label htmlFor="username" className="mb-2 block text-sm font-semibold text-[#171B18]">

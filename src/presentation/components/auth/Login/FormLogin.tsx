@@ -1,6 +1,7 @@
 "use client";
 import Alert from "@/presentation/components/ui/Alert";
 import { login } from "@/application/auth/authSlice";
+import { loginSchema, type LoginFormData } from "@/application/auth/authSchemas";
 import { useAppDispatch, useAppSelector } from "@/application/store/hooks";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -12,7 +13,7 @@ const FormLogin = () => {
     (state) => state.auth
   );
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginFormData>({
     username: "",
     password: ""
   });
@@ -59,33 +60,33 @@ const FormLogin = () => {
   }, [status, isAuthenticated, router]);
 
   const validateForm = () => {
-    let isValid = true;
+    const result = loginSchema.safeParse(formData);
     const newErrors = {
       username: "",
       password: ""
     };
 
-    if (!formData.username.trim()) {
-      newErrors.username = "Le nom d'utilisateur est requis";
-      isValid = false;
-    }
-
-    if (!formData.password) {
-      newErrors.password = "Le mot de passe est requis";
-      isValid = false;
+    if (!result.success) {
+      for (const issue of result.error.issues) {
+        const field = issue.path[0];
+        if (field === "username" || field === "password") {
+          newErrors[field] = issue.message;
+        }
+      }
     }
 
     setFormErrors(newErrors);
-    return isValid;
+    return result.success ? result.data : null;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (validateForm() && !isSubmitting && status !== "loading") {
+    const validatedData = validateForm();
+    if (validatedData && !isSubmitting && status !== "loading") {
       setIsSubmitting(true);
       try {
-        await dispatch(login(formData)).unwrap();
+        await dispatch(login(validatedData)).unwrap();
       } catch (err) {
         void err;
       } finally {
@@ -118,7 +119,7 @@ const FormLogin = () => {
         />
       )}
 
-      <form className="space-y-5" onSubmit={handleSubmit}>
+      <form className="space-y-5" noValidate onSubmit={handleSubmit}>
         <div className="space-y-5">
           <div>
             <label htmlFor="username" className="mb-2 block text-sm font-semibold text-[#171B18]">
