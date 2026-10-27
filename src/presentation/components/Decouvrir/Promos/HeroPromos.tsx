@@ -1,6 +1,6 @@
 "use client";
 import { ChevronDown } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 const HeroPromos = () => {

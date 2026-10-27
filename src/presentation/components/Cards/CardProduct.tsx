@@ -2,7 +2,7 @@
 import { addToCart } from "@/application/cart/cartSlice";
 import { Product } from "@/domain/catalog/Product";
 import { useAppDispatch } from "@/application/store/hooks";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";

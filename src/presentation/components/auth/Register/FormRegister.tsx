@@ -130,7 +130,7 @@ const FormRegister = () => {
   };
 
   return (
-    <div className="max-w-md w-full space-y-8">
+    <div className="w-full space-y-6">
       {showAlert && (
         <Alert
           message={alertMessage}
@@ -139,10 +139,10 @@ const FormRegister = () => {
         />
       )}
 
-      <form className="space-y-6" onSubmit={handleSubmit}>
-        <div className="rounded-md shadow-sm -space-y-px">
+      <form className="space-y-5" onSubmit={handleSubmit}>
+        <div className="space-y-5">
           <div>
-            <label htmlFor="username" className="sr-only">
+            <label htmlFor="username" className="mb-2 block text-sm font-semibold text-[#171B18]">
               Nom d&apos;utilisateur
             </label>
             <input
@@ -151,20 +151,22 @@ const FormRegister = () => {
               type="text"
               autoComplete="username"
               required
-              className={`appearance-none relative block w-full px-3 py-2 border ${
-                formErrors.username ? "border-red-300" : "border-gray-300"
-              } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#F98909] focus:border-[#F98909] focus:z-10 sm:text-sm`}
+              aria-invalid={Boolean(formErrors.username)}
+              aria-describedby={formErrors.username ? "register-username-error" : undefined}
+              className={`block w-full border bg-white px-4 py-3 text-[#171B18] placeholder:text-[#8A918B] focus:border-[#F98909] focus:outline-none focus:ring-2 focus:ring-[#F98909]/20 ${
+                formErrors.username ? "border-red-500" : "border-[#DCE1D8]"
+              }`}
               placeholder="Nom d'utilisateur"
               value={formData.username}
               onChange={handleChange}
             />
             {formErrors.username && (
-              <p className="mt-1 text-sm text-red-600">{formErrors.username}</p>
+              <p id="register-username-error" role="alert" className="mt-1 text-sm text-red-600">{formErrors.username}</p>
             )}
           </div>
 
-          <div className="mt-4">
-            <label htmlFor="email" className="sr-only">
+          <div>
+            <label htmlFor="email" className="mb-2 block text-sm font-semibold text-[#171B18]">
               Adresse email
             </label>
             <input
@@ -173,20 +175,22 @@ const FormRegister = () => {
               type="email"
               autoComplete="email"
               required
-              className={`appearance-none relative block w-full px-3 py-2 border ${
-                formErrors.email ? "border-red-300" : "border-gray-300"
-              } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#F98909] focus:border-[#F98909] focus:z-10 sm:text-sm`}
+              aria-invalid={Boolean(formErrors.email)}
+              aria-describedby={formErrors.email ? "register-email-error" : undefined}
+              className={`block w-full border bg-white px-4 py-3 text-[#171B18] placeholder:text-[#8A918B] focus:border-[#F98909] focus:outline-none focus:ring-2 focus:ring-[#F98909]/20 ${
+                formErrors.email ? "border-red-500" : "border-[#DCE1D8]"
+              }`}
               placeholder="Adresse email"
               value={formData.email}
               onChange={handleChange}
             />
             {formErrors.email && (
-              <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>
+              <p id="register-email-error" role="alert" className="mt-1 text-sm text-red-600">{formErrors.email}</p>
             )}
           </div>
 
-          <div className="mt-4">
-            <label htmlFor="password" className="sr-only">
+          <div>
+            <label htmlFor="password" className="mb-2 block text-sm font-semibold text-[#171B18]">
               Mot de passe
             </label>
             <input
@@ -195,15 +199,17 @@ const FormRegister = () => {
               type="password"
               autoComplete="new-password"
               required
-              className={`appearance-none relative block w-full px-3 py-2 border ${
-                formErrors.password ? "border-red-300" : "border-gray-300"
-              } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#F98909] focus:border-[#F98909] focus:z-10 sm:text-sm`}
+              aria-invalid={Boolean(formErrors.password)}
+              aria-describedby={formErrors.password ? "register-password-error" : undefined}
+              className={`block w-full border bg-white px-4 py-3 text-[#171B18] placeholder:text-[#8A918B] focus:border-[#F98909] focus:outline-none focus:ring-2 focus:ring-[#F98909]/20 ${
+                formErrors.password ? "border-red-500" : "border-[#DCE1D8]"
+              }`}
               placeholder="Mot de passe"
               value={formData.password}
               onChange={handleChange}
             />
             {formErrors.password && (
-              <p className="mt-1 text-sm text-red-600">{formErrors.password}</p>
+              <p id="register-password-error" role="alert" className="mt-1 text-sm text-red-600">{formErrors.password}</p>
             )}
           </div>
         </div>
@@ -212,7 +218,7 @@ const FormRegister = () => {
           <button
             type="submit"
             disabled={status === "loading" || isSubmitting}
-            className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium  text-[#171B18] bg-[#F98909] hover:bg-[#D9EC8B] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F98909] ${
+            className={`group relative w-full flex justify-center py-3 px-5 font-semibold text-[#171B18] bg-[#F98909] transition-colors hover:bg-[#D9EC8B] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#CC6500] ${
               status === "loading" ? "opacity-70 cursor-not-allowed" : ""
             }`}
           >

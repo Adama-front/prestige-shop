@@ -5,7 +5,7 @@ import { useAppSelector } from "@/application/store/hooks";
 import Link from "next/link";
 import { Suspense, useState } from "react";
 import { formatXof } from "@/shared/utils/formatXof";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 const CheckoutContent = () => {

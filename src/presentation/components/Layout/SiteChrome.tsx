@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Footer from "@/presentation/components/Layout/Footer";
 import Header from "@/presentation/components/Layout/Header";
 import { motionTokens } from "@/shared/motion/motionTokens";

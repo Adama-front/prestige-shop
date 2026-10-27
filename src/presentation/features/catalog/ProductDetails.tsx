@@ -4,7 +4,7 @@ import { getById } from "@/application/catalog/productsSlice";
 import { useAppDispatch, useAppSelector } from "@/application/store/hooks";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 const Detail = () => {

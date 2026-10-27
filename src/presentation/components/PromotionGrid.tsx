@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { motionTokens, scrollReveal } from "@/shared/motion/motionTokens";

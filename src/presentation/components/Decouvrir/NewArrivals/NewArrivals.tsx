@@ -7,7 +7,7 @@ import CardProduct from "@/presentation/components/Cards/CardProduct";
 import { ProductSkeleton } from "@/presentation/components/ui/ProductSkeleton";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 export default function NewArrivals() {
