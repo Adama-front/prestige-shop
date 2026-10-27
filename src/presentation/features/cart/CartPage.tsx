@@ -13,6 +13,13 @@ import { useState } from "react";
 import { formatXof } from "@/shared/utils/formatXof";
 import { motion, useReducedMotion } from "framer-motion";
 import { scrollReveal } from "@/shared/motion/motionTokens";
+import { Minus, Plus } from "lucide-react";
+import {
+  FREE_SHIPPING_THRESHOLD,
+  REDUCED_SHIPPING_COST,
+  REDUCED_SHIPPING_THRESHOLD,
+  STANDARD_SHIPPING_COST
+} from "@/application/cart/calculateShippingCost";
 
 const CartContent = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -27,16 +34,40 @@ const CartContent = () => {
     message: "",
     type: "success"
   });
+  const [quantityDrafts, setQuantityDrafts] = useState<Record<string, string>>({});
 
-  const handleQuantityChange = (id: string, quantity: number) => {
-    if (quantity > 0) {
+  const handleQuantityChange = (id: string, value: string) => {
+    setQuantityDrafts((drafts) => ({ ...drafts, [id]: value }));
+    const quantity = Number(value);
+    if (value !== "" && Number.isSafeInteger(quantity) && quantity > 0) {
       dispatch(updateQuantity({ id, quantity }));
     }
+  };
+
+  const handleQuantityBlur = (id: string) => {
+    setQuantityDrafts((drafts) => {
+      const nextDrafts = { ...drafts };
+      delete nextDrafts[id];
+      return nextDrafts;
+    });
+  };
+
+  const adjustQuantity = (id: string, currentQuantity: number, amount: number) => {
+    const quantity = currentQuantity + amount;
+    if (!Number.isSafeInteger(quantity) || quantity < 1) return;
+
+    handleQuantityBlur(id);
+    dispatch(updateQuantity({ id, quantity }));
   };
 
   const handleRemoveItem = (id: string) => {
     const itemToRemove = items.find((item) => item.id === id);
     dispatch(removeFromCart(id));
+    setQuantityDrafts((drafts) => {
+      const nextDrafts = { ...drafts };
+      delete nextDrafts[id];
+      return nextDrafts;
+    });
     setAlertInfo({
       show: true,
       message: `${itemToRemove?.name || "Produit"} a été supprimé du panier`,
@@ -46,6 +77,7 @@ const CartContent = () => {
 
   const handleClearCart = () => {
     dispatch(clearCart());
+    setQuantityDrafts({});
     setAlertInfo({
       show: true,
       message: "Votre panier a été vidé",
@@ -61,6 +93,13 @@ const CartContent = () => {
     return (
       <div className="flex w-full items-center bg-white text-black justify-center pt-28 pb-12">
         <div className="flex w-full shadow-xl items-center justify-center flex-col gap-y-5 min-h-[70vh] max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {alertInfo.show && (
+            <Alert
+              message={alertInfo.message}
+              type={alertInfo.type}
+              onClose={() => setAlertInfo({ ...alertInfo, show: false })}
+            />
+          )}
           <div className="md:w-28 md:h-28 w-20 h-20 bg-[#E8EBE3] rounded-full flex items-center justify-center">
             <svg
               className="md:w-16 md:h-16 w-10 h-10"
@@ -115,10 +154,8 @@ const CartContent = () => {
             Parcourez notre sélection et trouvez les articles parfaits pour vous
             !
           </p>
-          <Link href="/#products">
-            <button className="text-white cursor-pointer md:text-sm bg-[#F98909] px-4 py-2 hover:bg-[#D9EC8B] transition-colors duration-300 flex items-center gap-2">
-              Explorer nos produits
-            </button>
+          <Link href="/#products" className="text-white cursor-pointer md:text-sm bg-[#F98909] px-4 py-2 hover:bg-[#D9EC8B] transition-colors duration-300 flex items-center gap-2">
+            Explorer nos produits
           </Link>
         </div>
       </div>
@@ -186,10 +223,14 @@ const CartContent = () => {
                   <div className="mt-2 md:text-sm text-xs text-green-700">
                     <ul className="list-disc pl-3 md:pl-5 space-y-1">
                       <li>
-                        Livraison gratuite dès 20 000 FCFA
+                        Livraison gratuite dès {formatXof(FREE_SHIPPING_THRESHOLD)}
                       </li>
-                      <li>Frais de 500 FCFA dès 10 000 FCFA et sous 20 000 FCFA</li>
-                      <li>Frais de 1 000 FCFA sous 10 000 FCFA</li>
+                      <li>
+                        Frais de {formatXof(REDUCED_SHIPPING_COST)} dès {formatXof(REDUCED_SHIPPING_THRESHOLD)} et sous {formatXof(FREE_SHIPPING_THRESHOLD)}
+                      </li>
+                      <li>
+                        Frais de {formatXof(STANDARD_SHIPPING_COST)} sous {formatXof(REDUCED_SHIPPING_THRESHOLD)}
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -251,23 +292,42 @@ const CartContent = () => {
                               {formatXof(item.price)}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              <input
-                                type="number"
-                                min="1"
-                                value={item.quantity}
-                                onChange={(e) =>
-                                  handleQuantityChange(
-                                    item.id,
-                                    parseInt(e.target.value)
-                                  )
-                                }
-                                className="w-20 text-center  outline-none  shadow-xl focus:ring-1 focus:ring-[#F98909] "
-                              />
+                              <div className="inline-flex h-10 items-center border border-[#DCE1D8] bg-white shadow-sm">
+                                <button
+                                  type="button"
+                                  aria-label={`Diminuer la quantité de ${item.name}`}
+                                  disabled={item.quantity <= 1}
+                                  onClick={() => adjustQuantity(item.id, item.quantity, -1)}
+                                  className="flex h-full w-10 items-center justify-center bg-[#E8EBE3] text-gray-800 transition-colors hover:bg-[#D9EC8B] disabled:cursor-not-allowed disabled:opacity-40"
+                                >
+                                  <Minus aria-hidden="true" size={16} strokeWidth={2} />
+                                </button>
+                                <input
+                                  type="text"
+                                  inputMode="numeric"
+                                  pattern="[0-9]*"
+                                  aria-label={`Quantité pour ${item.name}`}
+                                  value={quantityDrafts[item.id] ?? item.quantity}
+                                  onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                  onBlur={() => handleQuantityBlur(item.id)}
+                                  className="h-full w-14 border-x border-[#DCE1D8] text-center text-sm font-medium text-gray-900 outline-none focus:ring-1 focus:ring-inset focus:ring-[#F98909]"
+                                />
+                                <button
+                                  type="button"
+                                  aria-label={`Augmenter la quantité de ${item.name}`}
+                                  disabled={item.quantity >= Number.MAX_SAFE_INTEGER}
+                                  onClick={() => adjustQuantity(item.id, item.quantity, 1)}
+                                  className="flex h-full w-10 items-center justify-center bg-[#E8EBE3] text-gray-800 transition-colors hover:bg-[#D9EC8B] disabled:cursor-not-allowed disabled:opacity-40"
+                                >
+                                  <Plus aria-hidden="true" size={16} strokeWidth={2} />
+                                </button>
+                              </div>
                             </td>
 
                             <td className=" pl-11 whitespace-nowrap text-center ">
                               <button
                                 onClick={() => handleRemoveItem(item.id)}
+                                aria-label={`Supprimer ${item.name} du panier`}
                                 className="text-red-600 hover:bg-red-100 p-2 flex items-center justify-center cursor-pointer transition-colors duration-300"
                               >
                                 <svg
@@ -321,17 +381,15 @@ const CartContent = () => {
                         <span className="text-gray-600">
                           Frais de livraison
                         </span>
-                        {total < 20_000 && (
+                        {total < FREE_SHIPPING_THRESHOLD && (
                           <div className="text-xs text-[#F98909] mt-1">
-                            {total < 10_000 ? (
+                            {total < REDUCED_SHIPPING_THRESHOLD ? (
                               <span>
-                                Ajoutez {formatXof(10_000 - total)} pour réduire
-                                les frais à 500 FCFA
+                                Ajoutez {formatXof(REDUCED_SHIPPING_THRESHOLD - total)} pour réduire les frais à {formatXof(REDUCED_SHIPPING_COST)}
                               </span>
                             ) : (
                               <span>
-                                Ajoutez {formatXof(20_000 - total)} pour la
-                                livraison gratuite
+                                Ajoutez {formatXof(FREE_SHIPPING_THRESHOLD - total)} pour la livraison gratuite
                               </span>
                             )}
                           </div>
@@ -361,15 +419,11 @@ const CartContent = () => {
                     </div>
                   </div>
                   <div className="mt-6 flex flex-col gap-y-3">
-                    <Link href="/checkout">
-                      <button className="w-full bg-[#F98909] cursor-pointer text-white py-3 px-4  hover:bg-[#D9EC8B] transition-colors duration-300">
-                        Passer à la caisse
-                      </button>
+                    <Link href="/checkout" className="w-full bg-[#F98909] cursor-pointer text-white py-3 px-4 hover:bg-[#D9EC8B] transition-colors duration-300 text-center">
+                      Passer à la caisse
                     </Link>
-                    <Link href="/#products">
-                      <button className="w-full border border-[#F98909] hover:border-[#CC6500] cursor-pointer text-[#F98909] py-3 px-4 hover:bg-[#D9EC8B] hover:text-white transition-colors duration-300">
-                        Continuer les achats
-                      </button>
+                    <Link href="/#products" className="w-full border border-[#F98909] hover:border-[#CC6500] cursor-pointer text-[#F98909] py-3 px-4 hover:bg-[#D9EC8B] hover:text-white transition-colors duration-300 text-center">
+                      Continuer les achats
                     </Link>
                   </div>
                 </div>
