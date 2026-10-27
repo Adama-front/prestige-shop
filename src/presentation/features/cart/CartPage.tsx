@@ -13,6 +13,7 @@ import { useState } from "react";
 import { formatXof } from "@/shared/utils/formatXof";
 import { motion, useReducedMotion } from "framer-motion";
 import { scrollReveal } from "@/shared/motion/motionTokens";
+import { Minus, Plus } from "lucide-react";
 import {
   FREE_SHIPPING_THRESHOLD,
   REDUCED_SHIPPING_COST,
@@ -49,6 +50,14 @@ const CartContent = () => {
       delete nextDrafts[id];
       return nextDrafts;
     });
+  };
+
+  const adjustQuantity = (id: string, currentQuantity: number, amount: number) => {
+    const quantity = currentQuantity + amount;
+    if (!Number.isSafeInteger(quantity) || quantity < 1) return;
+
+    handleQuantityBlur(id);
+    dispatch(updateQuantity({ id, quantity }));
   };
 
   const handleRemoveItem = (id: string) => {
@@ -283,17 +292,36 @@ const CartContent = () => {
                               {formatXof(item.price)}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              <input
-                                type="number"
-                                min="1"
-                                step="1"
-                                inputMode="numeric"
-                                aria-label={`Quantité pour ${item.name}`}
-                                value={quantityDrafts[item.id] ?? item.quantity}
-                                onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                                onBlur={() => handleQuantityBlur(item.id)}
-                                className="w-20 text-center  outline-none  shadow-xl focus:ring-1 focus:ring-[#F98909] "
-                              />
+                              <div className="inline-flex h-10 items-center border border-[#DCE1D8] bg-white shadow-sm">
+                                <button
+                                  type="button"
+                                  aria-label={`Diminuer la quantité de ${item.name}`}
+                                  disabled={item.quantity <= 1}
+                                  onClick={() => adjustQuantity(item.id, item.quantity, -1)}
+                                  className="flex h-full w-10 items-center justify-center bg-[#E8EBE3] text-gray-800 transition-colors hover:bg-[#D9EC8B] disabled:cursor-not-allowed disabled:opacity-40"
+                                >
+                                  <Minus aria-hidden="true" size={16} strokeWidth={2} />
+                                </button>
+                                <input
+                                  type="text"
+                                  inputMode="numeric"
+                                  pattern="[0-9]*"
+                                  aria-label={`Quantité pour ${item.name}`}
+                                  value={quantityDrafts[item.id] ?? item.quantity}
+                                  onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                  onBlur={() => handleQuantityBlur(item.id)}
+                                  className="h-full w-14 border-x border-[#DCE1D8] text-center text-sm font-medium text-gray-900 outline-none focus:ring-1 focus:ring-inset focus:ring-[#F98909]"
+                                />
+                                <button
+                                  type="button"
+                                  aria-label={`Augmenter la quantité de ${item.name}`}
+                                  disabled={item.quantity >= Number.MAX_SAFE_INTEGER}
+                                  onClick={() => adjustQuantity(item.id, item.quantity, 1)}
+                                  className="flex h-full w-10 items-center justify-center bg-[#E8EBE3] text-gray-800 transition-colors hover:bg-[#D9EC8B] disabled:cursor-not-allowed disabled:opacity-40"
+                                >
+                                  <Plus aria-hidden="true" size={16} strokeWidth={2} />
+                                </button>
+                              </div>
                             </td>
 
                             <td className=" pl-11 whitespace-nowrap text-center ">
