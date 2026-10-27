@@ -1,11 +1,5 @@
-import About from "@/components/About";
+import About from "@/presentation/components/About";
 
-const page = () => {
-  return (
-    <div>
-      <About />
-    </div>
-  );
-};
-
-export default page;
+export default function AboutRoute() {
+  return <About />;
+}

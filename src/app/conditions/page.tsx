@@ -1,11 +1,5 @@
-import Conditions from "@/components/Conditions";
+import Conditions from "@/presentation/components/Conditions";
 
-const page = () => {
-  return (
-    <div>
-      <Conditions />
-    </div>
-  );
-};
-
-export default page;
+export default function ConditionsRoute() {
+  return <Conditions />;
+}

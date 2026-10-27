@@ -1,16 +1,5 @@
-"use client";
-import Hero from "@/components/Hero";
-import ListProducts from "@/components/ListProducts";
-import { Newsletter } from "@/components/NewsLetter";
-import PromotionGrid from "@/components/PromotionGrid";
+import HomePage from "@/presentation/features/home/HomePage";
 
-export default function Home() {
-  return (
-    <>
-      <Hero />
-      <PromotionGrid />
-      <ListProducts />
-      <Newsletter />
-    </>
-  );
+export default function HomeRoute() {
+  return <HomePage />;
 }

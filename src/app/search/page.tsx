@@ -1,11 +1,5 @@
-import SearchPage from "@/components/Search/Search";
+import SearchPage from "@/presentation/features/catalog/SearchPage";
 
-const page = () => {
-  return (
-    <div>
-      <SearchPage />
-    </div>
-  );
-};
-
-export default page;
+export default function SearchRoute() {
+  return <SearchPage />;
+}

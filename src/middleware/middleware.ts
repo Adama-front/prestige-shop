@@ -6,9 +6,9 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Routes protégées
-  const protectedRoutes = ["/profile", "/cart", "/checkout"];
+  const protectedRoutes = ["/profile"];
   // Routes d'authentification
-  const authRoutes = ["/auth/login", "/auth/register"];
+  const authRoutes = ["/auth/login", "/register"];
 
   // Si l'utilisateur est sur une route protégée sans token
   if (protectedRoutes.some((route) => pathname.startsWith(route)) && !token) {
@@ -28,8 +28,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/profile/:path*",
-    "/cart/:path*",
-    "/checkout/:path*",
-    "/auth/:path*"
+    "/register",
+    "/auth/login"
   ]
 };
