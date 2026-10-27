@@ -2,7 +2,7 @@
 
 import { fetchProducts } from "@/application/catalog/productsSlice";
 import { useAppDispatch, useAppSelector } from "@/application/store/hooks";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { Search } from "lucide-react";
 import { Suspense, useEffect, useState } from "react";
 import CardProduct from "@/presentation/components/Cards/CardProduct";

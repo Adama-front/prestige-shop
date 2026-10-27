@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { motionTokens } from "@/shared/motion/motionTokens";
 // import image_1 from "/images/hero/hero_3.jpg";
 

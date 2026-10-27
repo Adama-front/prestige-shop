@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import CardProduct from "@/presentation/components/Cards/CardProduct";
 import { ProductSkeleton } from "@/presentation/components/ui/ProductSkeleton";
 import { Skeleton } from "@/presentation/components/ui/Skeleton";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 const ListProducts = () => {

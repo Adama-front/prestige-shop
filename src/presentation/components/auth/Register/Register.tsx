@@ -2,50 +2,45 @@
 
 import Link from "next/link";
 import FormRegister from "./FormRegister";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 const Register = () => {
   const prefersReducedMotion = useReducedMotion();
+
   return (
-    <section className="min-h-screen flex items-center justify-center bg-white text-black py-10">
-      <motion.div {...scrollReveal("up", prefersReducedMotion)} className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="w-full flex flex-col items-center justify-center gap-y-6">
-          <div className="flex w-full items-center justify-center flex-col gap-y-2">
-            <div className="md:w-10   md:h-10 h-8 w-8  flex items-center justify-center bg-[#F98909] text-[#171B18]">
-              <svg
-                className="w-6 h-6 md:w-8 md:h-8 "
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M9 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H7Zm8-1a1 1 0 0 1 1-1h1v-1a1 1 0 1 1 2 0v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 0 1-1-1Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="w-full flex flex-col items-center justify-center gap-y-1">
-              <h2 className="text-2xl  md:text-3xl font-bold text-center text-gray-900">
-                Créer un compte
-              </h2>
-              <p className="mt-2 text-center text-sm text-gray-600">
-                Ou{" "}
-                <Link
-                  href="/auth/login"
-                  className="font-medium text-[#F98909] hover:text-[#CC6500]"
-                >
-                  connectez-vous à votre compte existant
-                </Link>
-              </p>
-            </div>
+    <section className="flex min-h-screen items-center justify-center bg-[#F5F5EF] px-4 py-8 text-[#171B18] sm:px-6 lg:px-8">
+      <motion.div
+        {...scrollReveal("up", prefersReducedMotion)}
+        className="grid min-h-[min(760px,calc(100vh-4rem))] w-full max-w-6xl overflow-hidden border border-[#DCE1D8] bg-white shadow-xl lg:grid-cols-[0.9fr_1.1fr]"
+      >
+        <aside className="relative hidden min-h-[640px] overflow-hidden bg-[#171B18] lg:block">
+          <div className="absolute inset-0 bg-[url('/images/hero/hero_2.jpg')] bg-cover bg-center" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#171B18]/90 via-[#171B18]/25 to-[#171B18]/10" />
+          <div className="absolute left-8 top-8 flex items-center gap-3 text-white">
+            <span className="flex h-10 w-10 items-center justify-center bg-[#F98909] text-lg font-bold text-[#171B18]">P</span>
+            <span className="font-semibold tracking-wide">PrestigeShop</span>
           </div>
-          <div className="w-full flex items-center justify-center">
+          <div className="absolute inset-x-8 bottom-10 text-white">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-[#D9EC8B]">Un compte, plus de possibilités</p>
+            <h2 className="max-w-md text-4xl font-bold leading-tight xl:text-5xl">Bienvenue dans votre boutique.</h2>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-white/80">Créez votre compte et gardez vos essentiels à portée de main.</p>
+          </div>
+          <span aria-hidden="true" className="absolute right-8 top-28 h-16 w-16 border border-[#D9EC8B]/70" />
+        </aside>
+
+        <div className="flex items-center justify-center px-6 py-12 sm:px-12 lg:px-16">
+          <div className="w-full max-w-md">
+            <div className="mb-9">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#CC6500]">Rejoignez-nous <span className="ml-2 text-[#667069]">02 / 02</span></p>
+              <h1 className="text-4xl font-bold leading-tight text-[#171B18] sm:text-5xl">Créez votre compte.</h1>
+              <p className="mt-3 text-sm text-[#667069]">Quelques informations suffisent pour commencer.</p>
+            </div>
             <FormRegister />
+            <p className="mt-8 text-center text-sm text-[#667069]">
+              Vous avez déjà un compte ?{" "}
+              <Link href="/auth/login" className="font-semibold text-[#CC6500] underline decoration-[#D9EC8B] decoration-2 underline-offset-4 hover:text-[#171B18]">Connectez-vous</Link>
+            </p>
           </div>
         </div>
       </motion.div>

@@ -1,7 +1,7 @@
 "use client";
 import { Mail } from "lucide-react";
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 export function Newsletter() {

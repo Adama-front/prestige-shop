@@ -1,41 +1,46 @@
 "use client";
 
+import Link from "next/link";
 import FormLogin from "./FormLogin";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 const Login = () => {
   const prefersReducedMotion = useReducedMotion();
+
   return (
-    <section className="min-h-screen flex items-center justify-center bg-white text-black py-10">
-      <motion.div {...scrollReveal("up", prefersReducedMotion)} className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="w-full flex flex-col items-center justify-center gap-y-6">
-          <div className="flex w-full items-center justify-center flex-col gap-y-2">
-            <div className="md:w-10 md:h-10 h-8 w-8 flex items-center justify-center bg-[#F98909] text-[#171B18]">
-              <svg
-                className="w-6 h-6 "
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 10V7a4 4 0 1 1 8 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2-3a2 2 0 1 1 4 0v3h-4V7Zm2 6a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="w-full flex flex-col items-center justify-center gap-y-1">
-              <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900">
-                Connexion
-              </h2>
-            </div>
+    <section className="flex min-h-screen items-center justify-center bg-[#F5F5EF] px-4 py-8 text-[#171B18] sm:px-6 lg:px-8">
+      <motion.div
+        {...scrollReveal("up", prefersReducedMotion)}
+        className="grid min-h-[min(760px,calc(100vh-4rem))] w-full max-w-6xl overflow-hidden border border-[#DCE1D8] bg-white shadow-xl lg:grid-cols-[0.9fr_1.1fr]"
+      >
+        <aside className="relative hidden min-h-[640px] overflow-hidden bg-[#171B18] lg:block">
+          <div className="absolute inset-0 bg-[url('/images/hero/hero_1.jpg')] bg-cover bg-center" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#171B18]/90 via-[#171B18]/25 to-[#171B18]/10" />
+          <div className="absolute left-8 top-8 flex items-center gap-3 text-white">
+            <span className="flex h-10 w-10 items-center justify-center bg-[#F98909] text-lg font-bold text-[#171B18]">P</span>
+            <span className="font-semibold tracking-wide">PrestigeShop</span>
           </div>
-          <div className="w-full flex items-center justify-center ">
+          <div className="absolute inset-x-8 bottom-10 text-white">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-[#D9EC8B]">Votre boutique, en toute simplicité</p>
+            <h2 className="max-w-md text-4xl font-bold leading-tight xl:text-5xl">Le plaisir de trouver ce qu’il vous faut.</h2>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-white/80">Retrouvez une sélection pensée pour accompagner votre quotidien.</p>
+          </div>
+          <span aria-hidden="true" className="absolute right-8 top-28 h-16 w-16 border border-[#D9EC8B]/70" />
+        </aside>
+
+        <div className="flex items-center justify-center px-6 py-12 sm:px-12 lg:px-16">
+          <div className="w-full max-w-md">
+            <div className="mb-9">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#CC6500]">Espace client <span className="ml-2 text-[#667069]">01 / 02</span></p>
+              <h1 className="text-4xl font-bold leading-tight text-[#171B18] sm:text-5xl">Heureux de vous revoir.</h1>
+              <p className="mt-3 text-sm text-[#667069]">Connectez-vous pour retrouver votre espace et vos commandes.</p>
+            </div>
             <FormLogin />
+            <p className="mt-8 text-center text-sm text-[#667069]">
+              Vous n’avez pas encore de compte ?{" "}
+              <Link href="/register" className="font-semibold text-[#CC6500] underline decoration-[#D9EC8B] decoration-2 underline-offset-4 hover:text-[#171B18]">Créer un compte</Link>
+            </p>
           </div>
         </div>
       </motion.div>

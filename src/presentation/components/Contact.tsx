@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { motionTokens, scrollReveal } from "@/shared/motion/motionTokens";

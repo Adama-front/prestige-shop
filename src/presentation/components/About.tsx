@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
