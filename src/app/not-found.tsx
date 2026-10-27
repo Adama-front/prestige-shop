@@ -16,7 +16,7 @@ export default function NotFound() {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <h1 className="text-9xl font-bold text-[#2ECC71] mb-4">404</h1>
+          <h1 className="text-9xl font-bold text-[#F98909] mb-4">404</h1>
           <h2 className="text-3xl md:text-4xl font-semibold text-gray-800 mb-6">
             Oups ! Page non trouvée
           </h2>
@@ -36,7 +36,7 @@ export default function NotFound() {
           <Link href="/">
             <motion.button
               whileTap={{ scale: 0.95 }}
-              className="bg-[#2ECC71] text-white px-8 py-3 cursor-pointer  font-medium hover:bg-[#A3BE8C] transition-colors duration-300"
+              className="bg-[#F98909] text-[#171B18] px-8 py-3 cursor-pointer  font-medium hover:bg-[#CC6500] transition-colors duration-300"
             >
               Retour à l&apos;accueil
             </motion.button>

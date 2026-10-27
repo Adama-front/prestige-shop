@@ -1,10 +1,8 @@
-import Footer from "@/components/Layout/Footer";
-import Header from "@/components/Layout/Header";
-import ScrollToTop from "@/components/ScrollToTop";
+import ScrollToTop from "@/presentation/components/ScrollToTop";
+import SiteChrome from "@/presentation/components/Layout/SiteChrome";
 import type { Metadata } from "next";
-import { Lora } from "next/font/google";
 import "./globals.css";
-import StoreProvider from "./storeProvider";
+import StoreProvider from "@/presentation/providers/StoreProvider";
 
 export const metadata: Metadata = {
   title: "PrestigeShop",
@@ -12,21 +10,17 @@ export const metadata: Metadata = {
     "PrestigeShop - Votre boutique en ligne incontournable pour des produits de qualité, des offres exclusives et une expérience d'achat fluide et sécurisée. Découvrez nos nouveautés et promotions dès maintenant !"
 };
 
-const lora = Lora({ subsets: ["latin"], weight: "400" });
-
 export default function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${lora.className} antialiased`}>
+    <html lang="fr">
+      <body className="antialiased">
         <StoreProvider>
-          <Header />
-          {children}
+          <SiteChrome>{children}</SiteChrome>
           <ScrollToTop />
-          <Footer />
         </StoreProvider>
       </body>
     </html>

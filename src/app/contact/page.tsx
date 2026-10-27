@@ -1,11 +1,5 @@
-import Contact from "@/components/Contact";
+import Contact from "@/presentation/components/Contact";
 
-const page = () => {
-  return (
-    <div>
-      <Contact />
-    </div>
-  );
-};
-
-export default page;
+export default function ContactRoute() {
+  return <Contact />;
+}

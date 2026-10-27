@@ -1,11 +1,5 @@
-import Politique from "@/components/Politique";
+import Politique from "@/presentation/components/Politique";
 
-const page = () => {
-  return (
-    <div>
-      <Politique />
-    </div>
-  );
-};
-
-export default page;
+export default function PrivacyRoute() {
+  return <Politique />;
+}
