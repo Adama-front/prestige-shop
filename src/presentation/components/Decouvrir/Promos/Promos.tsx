@@ -26,29 +26,29 @@ export default function Promos() {
   );
 
   return (
-    <section className="bg-white text-[#171B18] py-12" id="promos" aria-busy={status === "idle" || status === "loading"}>
+    <section className="bg-white text-[#0F172A] py-12" id="promos" aria-busy={status === "idle" || status === "loading"}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col items-center">
           <motion.h2 {...scrollReveal("up", prefersReducedMotion)} className="text-2xl md:text-3xl font-bold text-center">Offres &amp; Promotions</motion.h2>
           <p className="text-sm text-[#667069] text-center max-w-xl">Découvrez nos meilleures offres et promotions du moment</p>
         </div>
         {items.length === 0 && (status === "idle" || status === "loading") ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" role="status" aria-label="Chargement des promotions">
-            {Array.from({ length: 4 }, (_, i) => <ProductSkeleton key={i} />)}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6" role="status" aria-label="Chargement des promotions">
+            {Array.from({ length: 5 }, (_, i) => <ProductSkeleton key={i} />)}
           </div>
         ) : status === "failed" && items.length === 0 ? (
-          <div className="py-12 text-center"><p className="mb-4">{error}</p><button onClick={() => dispatch(fetchProducts())} className="bg-[#F98909] text-[#171B18] px-4 py-2">Réessayer</button></div>
+          <div className="py-12 text-center"><p className="mb-4">{error}</p><button onClick={() => dispatch(fetchProducts())} className="bg-[#059669] text-[#0F172A] px-4 py-2">Réessayer</button></div>
         ) : products.length ? (
           <motion.div {...scrollReveal("up", prefersReducedMotion)} className="flex flex-col items-center gap-5">
             {status === "failed" && <p className="text-sm text-[#667069]" role="status">Les données affichées n’ont pas pu être actualisées.</p>}
             <div className="flex flex-wrap justify-center gap-3">
-              <button onClick={() => setSortBy("discount")} className={`px-4 py-2 text-sm ${sortBy === "discount" ? "bg-[#F98909] text-[#171B18]" : "bg-[#E8EBE3] text-[#171B18]"}`}>Meilleures réductions</button>
-              <button onClick={() => setSortBy("price")} className={`px-4 py-2 text-sm ${sortBy === "price" ? "bg-[#F98909] text-[#171B18]" : "bg-[#E8EBE3] text-[#171B18]"}`}>Prix croissant</button>
+              <button onClick={() => setSortBy("discount")} className={`px-4 py-2 text-sm ${sortBy === "discount" ? "bg-[#059669] text-[#0F172A]" : "bg-[#F1F5F9] text-[#0F172A]"}`}>Meilleures réductions</button>
+              <button onClick={() => setSortBy("price")} className={`px-4 py-2 text-sm ${sortBy === "price" ? "bg-[#059669] text-[#0F172A]" : "bg-[#F1F5F9] text-[#0F172A]"}`}>Prix croissant</button>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">{sortedProducts.map((product) => <CardProduct key={product.id} product={product} />)}</div>
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">{sortedProducts.map((product) => <CardProduct key={product.id} product={product} />)}</div>
           </motion.div>
         ) : (
-          <div className="py-12 text-center"><h3 className="text-xl font-semibold">Aucune promotion disponible</h3><p className="mt-2 text-[#667069]">Aucun produit ne correspond à cette sélection pour le moment.</p><Link href="/#products" className="mt-5 inline-flex bg-[#F98909] px-4 py-2 text-[#171B18]">Explorer nos produits</Link></div>
+          <div className="py-12 text-center"><h3 className="text-xl font-semibold">Aucune promotion disponible</h3><p className="mt-2 text-[#667069]">Aucun produit ne correspond à cette sélection pour le moment.</p><Link href="/#products" className="mt-5 inline-flex bg-[#059669] px-4 py-2 text-[#0F172A]">Explorer nos produits</Link></div>
         )}
       </div>
     </section>

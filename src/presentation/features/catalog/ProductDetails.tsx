@@ -26,7 +26,7 @@ const Detail = () => {
   if (status === "loading")
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#F98909]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#059669]"></div>
       </div>
     );
 
@@ -36,7 +36,7 @@ const Detail = () => {
         <p>Erreur : {error}</p>
         <button
           onClick={() => router.back()}
-          className="px-4 py-2 bg-[#F98909] text-[#171B18] duration-300 text-sm cursor-pointer hover:bg-[#D9EC8B] transition-colors"
+          className="px-4 py-2 bg-[#059669] text-[#0F172A] duration-300 text-sm cursor-pointer rounded-md hover:bg-[#D1FAE5] transition-colors"
         >
           Retour
         </button>
@@ -62,7 +62,7 @@ const Detail = () => {
           <div className="w-full flex items-start">
             <button
               onClick={() => router.back()}
-              className="md:px-3 md:py-2 py-1.5 px-2 flex items-center gap-x-1 justify-center bg-[#F98909] text-[#171B18] duration-300 text-xs md:text-sm cursor-pointer hover:bg-[#D9EC8B] transition-colors"
+              className="md:px-3 md:py-2 py-1.5 px-2 flex items-center gap-x-1 justify-center bg-[#059669] text-[#0F172A] duration-300 text-xs md:text-sm cursor-pointer rounded-md hover:bg-[#D1FAE5] transition-colors"
             >
               <svg
                 className="md:w-6 md:h-6 w-5 h-5"
@@ -91,8 +91,8 @@ const Detail = () => {
           </div>
 
           {/* Section des commentaires */}
-          <motion.section {...scrollReveal("up", prefersReducedMotion)} className="mt-8 border-t border-[#DCE1D8] pt-6" aria-labelledby="reviews-title">
-            <h2 id="reviews-title" className="text-xl font-semibold text-[#171B18]">Avis clients</h2>
+          <motion.section {...scrollReveal("up", prefersReducedMotion)} className="mt-8 border-t border-[#E2E8F0] pt-6" aria-labelledby="reviews-title">
+            <h2 id="reviews-title" className="text-xl font-semibold text-[#0F172A]">Avis clients</h2>
             <p className="mt-2 text-sm text-[#667069]">La consultation et la publication des avis seront disponibles après l’intégration du backend.</p>
           </motion.section>
         </div>

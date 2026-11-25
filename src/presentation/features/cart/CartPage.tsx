@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { Suspense } from "react";
 import Alert from "@/presentation/components/ui/Alert";
 import OptimizedImage from "@/presentation/components/ui/OptimizedImage";
@@ -100,7 +100,7 @@ const CartContent = () => {
               onClose={() => setAlertInfo({ ...alertInfo, show: false })}
             />
           )}
-          <div className="md:w-28 md:h-28 w-20 h-20 bg-[#E8EBE3] rounded-full flex items-center justify-center">
+          <div className="md:w-28 md:h-28 w-20 h-20 bg-[#F1F5F9] rounded-full flex items-center justify-center">
             <svg
               className="md:w-16 md:h-16 w-10 h-10"
               viewBox="0 -0.5 32 32"
@@ -109,11 +109,11 @@ const CartContent = () => {
             >
               <path
                 d="M10.3147 30.9442C11.9424 30.9442 13.2618 29.6247 13.2618 27.9971C13.2618 26.3695 11.9424 25.05 10.3147 25.05C8.68712 25.05 7.36768 26.3695 7.36768 27.9971C7.36768 29.6247 8.68712 30.9442 10.3147 30.9442Z"
-                fill="#F98909"
+                fill="#059669"
               />
               <path
                 d="M26.5232 30.9442C28.1509 30.9442 29.4703 29.6247 29.4703 27.9971C29.4703 26.3695 28.1509 25.05 26.5232 25.05C24.8956 25.05 23.5762 26.3695 23.5762 27.9971C23.5762 29.6247 24.8956 30.9442 26.5232 30.9442Z"
-                fill="#F98909"
+                fill="#059669"
               />
               <path
                 fill-rule="evenodd"
@@ -141,8 +141,8 @@ const CartContent = () => {
                   y2="29.6608"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#CC6500" />
-                  <stop offset="1" stop-color="#F98909" />
+                  <stop stop-color="#047857" />
+                  <stop offset="1" stop-color="#059669" />
                 </linearGradient>
               </defs>
             </svg>
@@ -154,7 +154,7 @@ const CartContent = () => {
             Parcourez notre sélection et trouvez les articles parfaits pour vous
             !
           </p>
-          <Link href="/#products" className="text-white cursor-pointer md:text-sm bg-[#F98909] px-4 py-2 hover:bg-[#D9EC8B] transition-colors duration-300 flex items-center gap-2">
+          <Link href="/#products" className="text-white cursor-pointer md:text-sm bg-[#059669] px-4 py-2 hover:bg-[#D1FAE5] transition-colors duration-300 flex items-center gap-2">
             Explorer nos produits
           </Link>
         </div>
@@ -200,7 +200,7 @@ const CartContent = () => {
             </div>
 
             {/* Information sur les frais de livraison */}
-            <motion.div {...scrollReveal("left", prefersReducedMotion)} className="bg-[#E8EBE3] px-2 py-4 md:p-4 mb-4">
+            <motion.div {...scrollReveal("left", prefersReducedMotion)} className="bg-[#F1F5F9] px-2 py-4 md:p-4 mb-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
                   <svg
@@ -241,7 +241,7 @@ const CartContent = () => {
               {/* Cart Items */}
 
               <div className="lg:col-span-2">
-                <div className="bg-white  shadow-md overflow-hidden">
+                <div className="bg-white shadow-md overflow-hidden rounded-lg">
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead className="bg-gray-50 ">
@@ -275,7 +275,7 @@ const CartContent = () => {
                                 <div className="ml-4">
                                   <Link
                                     href={`/products/${item.id}`}
-                                    className="text-sm font-medium text-gray-900 hover:text-[#F98909] duration-300 transition-colors"
+                                    className="text-sm font-medium text-gray-900 hover:text-[#059669] duration-300 transition-colors"
                                   >
                                     {item.name
                                       .split(" ")
@@ -292,13 +292,13 @@ const CartContent = () => {
                               {formatXof(item.price)}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              <div className="inline-flex h-10 items-center border border-[#DCE1D8] bg-white shadow-sm">
+                              <div className="inline-flex h-10 items-center border border-[#E2E8F0] bg-white shadow-sm rounded-md overflow-hidden">
                                 <button
                                   type="button"
                                   aria-label={`Diminuer la quantité de ${item.name}`}
                                   disabled={item.quantity <= 1}
                                   onClick={() => adjustQuantity(item.id, item.quantity, -1)}
-                                  className="flex h-full w-10 items-center justify-center bg-[#E8EBE3] text-gray-800 transition-colors hover:bg-[#D9EC8B] disabled:cursor-not-allowed disabled:opacity-40"
+                                  className="flex h-full w-10 items-center justify-center bg-[#F1F5F9] text-gray-800 transition-colors hover:bg-[#D1FAE5] disabled:cursor-not-allowed disabled:opacity-40"
                                 >
                                   <Minus aria-hidden="true" size={16} strokeWidth={2} />
                                 </button>
@@ -310,14 +310,14 @@ const CartContent = () => {
                                   value={quantityDrafts[item.id] ?? item.quantity}
                                   onChange={(e) => handleQuantityChange(item.id, e.target.value)}
                                   onBlur={() => handleQuantityBlur(item.id)}
-                                  className="h-full w-14 border-x border-[#DCE1D8] text-center text-sm font-medium text-gray-900 outline-none focus:ring-1 focus:ring-inset focus:ring-[#F98909]"
+                                  className="h-full w-14 border-x border-[#E2E8F0] text-center text-sm font-medium text-gray-900 outline-none focus:ring-1 focus:ring-inset focus:ring-[#059669]"
                                 />
                                 <button
                                   type="button"
                                   aria-label={`Augmenter la quantité de ${item.name}`}
                                   disabled={item.quantity >= Number.MAX_SAFE_INTEGER}
                                   onClick={() => adjustQuantity(item.id, item.quantity, 1)}
-                                  className="flex h-full w-10 items-center justify-center bg-[#E8EBE3] text-gray-800 transition-colors hover:bg-[#D9EC8B] disabled:cursor-not-allowed disabled:opacity-40"
+                                  className="flex h-full w-10 items-center justify-center bg-[#F1F5F9] text-gray-800 transition-colors hover:bg-[#D1FAE5] disabled:cursor-not-allowed disabled:opacity-40"
                                 >
                                   <Plus aria-hidden="true" size={16} strokeWidth={2} />
                                 </button>
@@ -355,7 +355,7 @@ const CartContent = () => {
 
               {/* Order Summary */}
               <div className="lg:col-span-1">
-                <div className="bg-white w-full  shadow-xl p-2 md:p-4">
+                <div className="bg-white w-full shadow-xl p-2 md:p-4 rounded-lg">
                   <div className="w-full flex items-center justify-between mb-4">
                     {" "}
                     <h3 className="text-sm uppercase font-semibold text-gray-900">
@@ -382,7 +382,7 @@ const CartContent = () => {
                           Frais de livraison
                         </span>
                         {total < FREE_SHIPPING_THRESHOLD && (
-                          <div className="text-xs text-[#F98909] mt-1">
+                          <div className="text-xs text-[#059669] mt-1">
                             {total < REDUCED_SHIPPING_THRESHOLD ? (
                               <span>
                                 Ajoutez {formatXof(REDUCED_SHIPPING_THRESHOLD - total)} pour réduire les frais à {formatXof(REDUCED_SHIPPING_COST)}
@@ -412,17 +412,17 @@ const CartContent = () => {
                         <span className="text-lg font-semibold text-gray-900">
                           Total
                         </span>
-                        <span className="text-lg font-semibold text-[#F98909]">
+                        <span className="text-lg font-semibold text-[#059669]">
                           {formatXof(calculateTotal())}
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="mt-6 flex flex-col gap-y-3">
-                    <Link href="/checkout" className="w-full bg-[#F98909] cursor-pointer text-white py-3 px-4 hover:bg-[#D9EC8B] transition-colors duration-300 text-center">
+                    <Link href="/checkout" className="w-full bg-[#059669] cursor-pointer text-white py-3 px-4 rounded-md hover:bg-[#D1FAE5] transition-colors duration-300 text-center">
                       Passer à la caisse
                     </Link>
-                    <Link href="/#products" className="w-full border border-[#F98909] hover:border-[#CC6500] cursor-pointer text-[#F98909] py-3 px-4 hover:bg-[#D9EC8B] hover:text-white transition-colors duration-300 text-center">
+                    <Link href="/#products" className="w-full border border-[#059669] hover:border-[#047857] cursor-pointer text-[#059669] py-3 px-4 rounded-md hover:bg-[#D1FAE5] hover:text-white transition-colors duration-300 text-center">
                       Continuer les achats
                     </Link>
                   </div>

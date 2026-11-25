@@ -12,6 +12,43 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    hydrateCart: (state, action: PayloadAction<CartItem[]>) => {
+      if (!Array.isArray(action.payload)) return;
+
+      const validItems: CartItem[] = [];
+      for (const item of action.payload) {
+        if (
+          item &&
+          typeof item === "object" &&
+          typeof item.id === "string" &&
+          item.id.trim() &&
+          typeof item.name === "string" &&
+          item.name.trim() &&
+          typeof item.image === "string" &&
+          Number.isFinite(item.price) &&
+          item.price >= 0 &&
+          Number.isSafeInteger(item.quantity) &&
+          item.quantity > 0
+        ) {
+          validItems.push({
+            id: item.id.trim(),
+            name: item.name.trim(),
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image
+          });
+        }
+      }
+
+      state.items = validItems;
+      state.total = state.items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+      state.shippingCost = state.items.length
+        ? calculateShippingCost(state.total)
+        : 0;
+    },
     addToCart: (state, action: PayloadAction<AddCartItemInput>) => {
       const payload = action.payload;
       if (!payload || typeof payload !== "object") return;
@@ -91,6 +128,7 @@ const cartSlice = createSlice({
 });
 
 export const {
+  hydrateCart,
   addToCart,
   removeFromCart,
   updateQuantity,

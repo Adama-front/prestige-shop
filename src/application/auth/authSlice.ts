@@ -1,16 +1,9 @@
-// src/store/slices/authSlice.ts
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-}
+import type { PublicUser } from "@/application/auth/authApiSchemas";
+import { authApiClient } from "@/infrastructure/auth/AuthApiClient";
 
 interface AuthState {
-  user: User | null;
-  token: string | null;
+  user: PublicUser | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
   isAuthenticated: boolean;
@@ -18,72 +11,57 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: null,
   status: "idle",
   error: null,
   isAuthenticated: false
 };
 
-// Fonction utilitaire pour accéder à localStorage de manière sécurisée
-const getLocalStorageItem = (key: string): string | null => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem(key);
-  }
-  return null;
-};
-
-// Vérification initiale du token
-export const checkAuth = createAsyncThunk("auth/checkAuth", async () => {
-  const token = getLocalStorageItem("token");
-  if (!token) {
-    throw new Error("No token found");
-  }
-  try {
-    // Vérifier la validité du token avec une requête à l'API
-    const response = await axios.get("https://fakestoreapi.com/users", {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
-  } catch {
-    throw new Error("Invalid token");
-  }
-});
-
-export const register = createAsyncThunk(
-  "auth/register",
-  async (credentials: {
-    username: string;
-    email: string;
-    password: string;
-  }) => {
-    try {
-      const response = await axios.post(
-        "https://fakestoreapi.com/users",
-        credentials
-      );
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(
-          error.response?.data?.message || "Erreur d'inscription"
-        );
-      }
-      throw error;
-    }
+export const checkAuth = createAsyncThunk<PublicUser>(
+  "auth/checkAuth",
+  () => authApiClient.me(),
+  {
+    condition: (_, { getState }) =>
+      (getState() as { auth: AuthState }).auth.status !== "loading"
   }
 );
 
-export const login = createAsyncThunk(
-  "auth/login",
-  async (
-    credentials: { username: string; password: string },
-    { rejectWithValue }
-  ) => {
+export const register = createAsyncThunk<
+  PublicUser,
+  { username: string; email: string; password: string },
+  { rejectValue: string }
+>("auth/register", async (credentials, { rejectWithValue }) => {
+  try {
+    return await authApiClient.register(credentials);
+  } catch (error) {
+    return rejectWithValue(
+      error instanceof Error ? error.message : "Erreur d’inscription."
+    );
+  }
+});
+
+export const login = createAsyncThunk<
+  PublicUser,
+  { username: string; password: string },
+  { rejectValue: string }
+>("auth/login", async (credentials, { rejectWithValue }) => {
+  try {
+    return await authApiClient.login(credentials);
+  } catch (error) {
+    return rejectWithValue(
+      error instanceof Error ? error.message : "Erreur de connexion."
+    );
+  }
+});
+
+export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/auth/login", credentials);
-      return response.data;
-    } catch {
-      return rejectWithValue("Erreur de connexion");
+      await authApiClient.logout();
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Erreur de déconnexion."
+      );
     }
   }
 );
@@ -92,19 +70,25 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-      localStorage.removeItem("token");
-    },
     clearError: (state) => {
       state.error = null;
     }
   },
   extraReducers: (builder) => {
     builder
-      // Register
+      .addCase(checkAuth.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(checkAuth.rejected, (state) => {
+        state.status = "idle";
+        state.user = null;
+        state.isAuthenticated = false;
+      })
       .addCase(register.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -115,26 +99,34 @@ const authSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message || "Erreur d'inscription";
+        state.error = action.payload ?? "Erreur d’inscription.";
       })
-      // Login
       .addCase(login.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.user = action.payload;
         state.isAuthenticated = true;
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message || "Erreur de connexion";
+        state.error = action.payload ?? "Erreur de connexion.";
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.status = "idle";
+        state.user = null;
+        state.isAuthenticated = false;
+        state.error = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload ?? "Erreur de déconnexion.";
       });
   }
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { clearError } = authSlice.actions;
 export default authSlice.reducer;

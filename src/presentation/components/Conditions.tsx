@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { motion, useReducedMotion } from "motion/react";
 import { CheckCircle } from "lucide-react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
@@ -55,7 +55,7 @@ const Conditions = () => {
           {...scrollReveal("up", prefersReducedMotion)}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-[#F98909] mb-4">
+          <h1 className="text-4xl font-bold text-[#059669] mb-4">
             Conditions Générales de Vente
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
@@ -72,14 +72,14 @@ const Conditions = () => {
               {...scrollReveal("left", prefersReducedMotion, index * 0.08)}
               className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
             >
-              <h2 className="text-2xl font-semibold text-[#F98909] mb-4 flex items-center">
+              <h2 className="text-2xl font-semibold text-[#059669] mb-4 flex items-center">
                 <CheckCircle className="mr-2" />
                 {section.title}
               </h2>
               <ul className="space-y-3">
                 {section.content.map((item, itemIndex) => (
                   <li key={itemIndex} className="flex items-start">
-                    <span className="text-[#F98909] mr-2">•</span>
+                    <span className="text-[#059669] mr-2">•</span>
                     <span className="text-gray-700">{item}</span>
                   </li>
                 ))}

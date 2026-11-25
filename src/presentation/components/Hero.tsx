@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -78,7 +78,7 @@ const Hero = () => {
             </p>
             <Link
               href="/#products"
-              className="text-[#171B18] font-bold bg-[#F98909] md:px-6 px-4 py-2  text-sm md:text-lg transition-colors hover:bg-[#D9EC8B] duration-300"
+              className="text-[#0F172A] font-bold bg-[#059669] rounded-md md:px-6 px-4 py-2  text-sm md:text-lg transition-colors hover:bg-[#D1FAE5] duration-300"
             >
               Découvrez nos produits
             </Link>

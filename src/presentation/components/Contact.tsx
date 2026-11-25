@@ -124,7 +124,7 @@ const Contact = () => {
           {...scrollReveal("up", prefersReducedMotion)}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-[#F98909] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#059669] mb-4">
             Contactez-Nous
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -140,13 +140,13 @@ const Contact = () => {
             {...scrollReveal("left", prefersReducedMotion, motionTokens.stagger * 2)}
             className="lg:col-span-1"
           >
-            <div className="bg-white p-4 shadow-xl">
-              <h2 className="md:text-2xl text-xl text-center md:text-left  font-semibold text-[#F98909] mb-6">
+            <div className="bg-white p-6 shadow-xl rounded-xl border border-[#E2E8F0]">
+              <h2 className="md:text-2xl text-xl text-center md:text-left  font-semibold text-[#059669] mb-6">
                 Informations de Contact
               </h2>
               <div className="space-y-6">
                 <div className="flex items-center">
-                  <MapPin className="w-6 h-6 text-[#F98909] mt-1" />
+                  <MapPin className="w-6 h-6 text-[#059669] mt-1" />
                   <div className="ml-4">
                     <h3 className="font-medium text-gray-900">Adresse</h3>
                     <p className="text-gray-600">
@@ -155,21 +155,21 @@ const Contact = () => {
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <Phone className="w-6 h-6 text-[#F98909] mt-1" />
+                  <Phone className="w-6 h-6 text-[#059669] mt-1" />
                   <div className="ml-4">
                     <h3 className="font-medium text-gray-900">Téléphone</h3>
                     <p className="text-gray-600">+1 234 567 890</p>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <Mail className="w-6 h-6 text-[#F98909] mt-1" />
+                  <Mail className="w-6 h-6 text-[#059669] mt-1" />
                   <div className="ml-4">
                     <h3 className="font-medium text-gray-900">Email</h3>
                     <p className="text-gray-600">contact@example.com</p>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <Clock className="w-6 h-6 text-[#F98909] mt-1" />
+                  <Clock className="w-6 h-6 text-[#059669] mt-1" />
                   <div className="ml-4">
                     <h3 className="font-medium text-gray-900">Horaires</h3>
                     <p className="text-gray-600">Lun - Ven, 9:00 - 18:00</p>
@@ -179,7 +179,7 @@ const Contact = () => {
             </div>
 
             {/* Map */}
-            <div className="mt-8 shadow-xl overflow-hidden">
+            <div className="mt-8 shadow-xl overflow-hidden rounded-xl border border-[#E2E8F0]">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.119763973046!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1645454332403!5m2!1sen!2s"
                 className="w-full h-64 border-0"
@@ -195,7 +195,7 @@ const Contact = () => {
             {...scrollReveal("right", prefersReducedMotion, motionTokens.stagger * 4)}
             className="lg:col-span-2"
           >
-            <div className="bg-white p-4 shadow-xl">
+            <div className="bg-white p-6 shadow-xl rounded-xl border border-[#E2E8F0]">
               <AnimatePresence mode="sync">
                 {(submitStatus.success || submitStatus.error) && (
                   <motion.div
@@ -205,7 +205,7 @@ const Contact = () => {
                     exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -motionTokens.distance.small }}
                     transition={{ duration, ease: motionTokens.easing }}
                     role="status"
-                    className={`p-4 mb-6 ${submitStatus.success ? "bg-[#E8EBE3] text-[#171B18]" : "bg-red-100 text-red-700"}`}
+                    className={`p-4 mb-6 rounded-lg ${submitStatus.success ? "bg-[#F1F5F9] text-[#0F172A]" : "bg-red-100 text-red-700"}`}
                   >
                     {submitStatus.message}
                   </motion.div>
@@ -219,7 +219,7 @@ const Contact = () => {
                       htmlFor="name"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      Nom<sup className="text-[#F98909]">*</sup>
+                      Nom<sup className="text-[#059669]">*</sup>
                     </label>
                     <input
                       type="text"
@@ -227,7 +227,7 @@ const Contact = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-[#F98909] ${
+                      className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669] ${
                         formErrors.name ? "border-red-500" : "border-gray-300"
                       }`}
                     />
@@ -242,7 +242,7 @@ const Contact = () => {
                       htmlFor="email"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      Email<sup className="text-[#F98909]">*</sup>
+                      Email<sup className="text-[#059669]">*</sup>
                     </label>
                     <input
                       type="email"
@@ -250,7 +250,7 @@ const Contact = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-[#F98909] ${
+                      className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669] ${
                         formErrors.email ? "border-red-500" : "border-gray-300"
                       }`}
                     />
@@ -267,7 +267,7 @@ const Contact = () => {
                     htmlFor="subject"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Sujet<sup className="text-[#F98909]">*</sup>
+                    Sujet<sup className="text-[#059669]">*</sup>
                   </label>
                   <input
                     type="text"
@@ -275,7 +275,7 @@ const Contact = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-[#F98909] ${
+                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669] ${
                       formErrors.subject ? "border-red-500" : "border-gray-300"
                     }`}
                   />
@@ -291,7 +291,7 @@ const Contact = () => {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Message<sup className="text-[#F98909]">*</sup>
+                    Message<sup className="text-[#059669]">*</sup>
                   </label>
                   <textarea
                     id="message"
@@ -299,7 +299,7 @@ const Contact = () => {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-[#F98909] ${
+                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669] ${
                       formErrors.message ? "border-red-500" : "border-gray-300"
                     }`}
                   />
@@ -313,7 +313,7 @@ const Contact = () => {
                 <motion.button
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full bg-[#F98909] text-[#171B18] py-3 px-6 font-medium cursor-pointer hover:bg-[#D9EC8B] transition-colors duration-300"
+                  className="w-full bg-[#059669] text-[#0F172A] py-3 px-6 font-medium rounded-md cursor-pointer hover:bg-[#D1FAE5] transition-colors duration-300"
                 >
                   Envoyer le Message
                 </motion.button>

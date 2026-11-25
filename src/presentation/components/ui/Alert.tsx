@@ -23,9 +23,9 @@ const Alert = ({ message, type, duration = 3000, onClose }: AlertProps) => {
   if (!isVisible) return null;
 
   const bgColor = {
-    success: "bg-[#E8EBE3] text-[#171B18] border-[#DCE1D8]",
+    success: "bg-[#F1F5F9] text-[#0F172A] border-[#E2E8F0]",
     error: "bg-red-100 text-red-800 border-red-200",
-    info: "bg-[#E8EBE3] text-[#171B18] border-[#DCE1D8]",
+    info: "bg-[#F1F5F9] text-[#0F172A] border-[#E2E8F0]",
     warning: "bg-yellow-100 text-yellow-800 border-yellow-200"
   };
 
@@ -70,7 +70,7 @@ const Alert = ({ message, type, duration = 3000, onClose }: AlertProps) => {
 
   return (
     <div
-      className={`fixed top-16 right-4 z-50 flex items-center p-4  border ${bgColor[type]} shadow-lg animate-fade-in-down`}
+      className={`fixed top-16 right-4 z-50 flex items-center p-4 border rounded-lg ${bgColor[type]} shadow-lg animate-fade-in-down`}
       role="alert"
     >
       <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8">

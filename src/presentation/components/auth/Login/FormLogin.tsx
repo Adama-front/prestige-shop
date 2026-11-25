@@ -122,7 +122,7 @@ const FormLogin = () => {
       <form className="space-y-5" noValidate onSubmit={handleSubmit}>
         <div className="space-y-5">
           <div>
-            <label htmlFor="username" className="mb-2 block text-sm font-semibold text-[#171B18]">
+            <label htmlFor="username" className="mb-2 block text-sm font-semibold text-[#0F172A]">
               Nom d&apos;utilisateur
             </label>
             <input
@@ -133,8 +133,8 @@ const FormLogin = () => {
               required
               aria-invalid={Boolean(formErrors.username)}
               aria-describedby={formErrors.username ? "username-error" : undefined}
-              className={`block w-full border bg-white px-4 py-3 text-[#171B18] placeholder:text-[#8A918B] focus:border-[#F98909] focus:outline-none focus:ring-2 focus:ring-[#F98909]/20 ${
-                formErrors.username ? "border-red-500" : "border-[#DCE1D8]"
+              className={`block w-full rounded-md border bg-white px-4 py-3 text-[#0F172A] placeholder:text-[#8A918B] focus:border-[#059669] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 ${
+                formErrors.username ? "border-red-500" : "border-[#E2E8F0]"
               }`}
               placeholder="Nom d'utilisateur"
               value={formData.username}
@@ -146,7 +146,7 @@ const FormLogin = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="mb-2 block text-sm font-semibold text-[#171B18]">
+            <label htmlFor="password" className="mb-2 block text-sm font-semibold text-[#0F172A]">
               Mot de passe
             </label>
             <input
@@ -157,8 +157,8 @@ const FormLogin = () => {
               required
               aria-invalid={Boolean(formErrors.password)}
               aria-describedby={formErrors.password ? "password-error" : undefined}
-              className={`block w-full border bg-white px-4 py-3 text-[#171B18] placeholder:text-[#8A918B] focus:border-[#F98909] focus:outline-none focus:ring-2 focus:ring-[#F98909]/20 ${
-                formErrors.password ? "border-red-500" : "border-[#DCE1D8]"
+              className={`block w-full rounded-md border bg-white px-4 py-3 text-[#0F172A] placeholder:text-[#8A918B] focus:border-[#059669] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 ${
+                formErrors.password ? "border-red-500" : "border-[#E2E8F0]"
               }`}
               placeholder="Mot de passe"
               value={formData.password}
@@ -174,7 +174,7 @@ const FormLogin = () => {
           <button
             type="submit"
             disabled={status === "loading" || isSubmitting}
-            className={`group relative w-full cursor-pointer flex justify-center py-3 px-5 font-semibold text-[#171B18] bg-[#F98909] transition-colors hover:bg-[#D9EC8B] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#CC6500] ${
+            className={`group relative w-full cursor-pointer flex justify-center rounded-md py-3 px-5 font-semibold text-[#0F172A] bg-[#059669] transition-colors hover:bg-[#D1FAE5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#047857] ${
               status === "loading" ? "opacity-70 cursor-not-allowed" : ""
             }`}
           >

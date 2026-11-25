@@ -1,40 +1,88 @@
 @import "tailwindcss";
 
 :root {
+  --green-50: #ECFDF5;
+  --green-100: #D1FAE5;
+  --green-500: #10B981;
+  --green-600: #059669;
+  --green-700: #047857;
+
+  --slate-50: #F8FAFC;
+  --slate-100: #F1F5F9;
+  --slate-200: #E2E8F0;
+  --slate-500: #64748B;
+  --slate-900: #0F172A;
+}
+
+:root {
   color-scheme: light;
-  --background: #f5f5ef;
-  --background-soft: #e8ebe3;
-  --surface: #ffffff;
-  --foreground: #171b18;
-  --foreground-soft: #353b36;
-  --muted: #667069;
-  --line: #dce1d8;
-  --orange: #f98909;
-  --orange-strong: #cc6500;
-  --lime: #d9ec8b;
-  --font-sans: "DM Sans", Arial, sans-serif;
-  --font-editorial: "Syne", "Arial Narrow", sans-serif;
-  /* Legacy utility aliases retained while presentation is migrated by feature. */
-  --color-brand-primary: var(--orange);
-  --color-brand-secondary: var(--lime);
-  --color-brand-accent: var(--orange-strong);
+  --color-primary: var(--green-600);
+  --color-primary-hover: var(--green-700);
+
+  --color-background: var(--slate-50);
+  --color-surface: #FFFFFF;
+
+  --color-text-primary: var(--slate-900);
+  --color-text-secondary: var(--slate-500);
+
+  --color-border: var(--slate-200);
+
+  --color-success: #16A34A;
+  --color-warning: #F59E0B;
+  --color-danger: #DC2626;
+  --color-info: #2563EB;
+
+  /* Aliases & compatibilité design system */
+  --background: var(--color-background);
+  --background-soft: var(--slate-100);
+  --surface: var(--color-surface);
+  --foreground: var(--color-text-primary);
+  --foreground-soft: var(--color-text-secondary);
+  --muted: var(--color-text-secondary);
+  --line: var(--color-border);
+  --orange: var(--color-primary);
+  --orange-strong: var(--color-primary-hover);
+  --lime: var(--green-100);
+
+  --font-sans: var(--font-plus-jakarta, "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  --font-editorial: var(--font-plus-jakarta, "Plus Jakarta Sans", sans-serif);
+
+  --color-brand-primary: var(--color-primary);
+  --color-brand-secondary: var(--green-100);
+  --color-brand-accent: var(--color-primary-hover);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-surface: var(--surface);
-  --color-ink-soft: var(--foreground-soft);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-lime: var(--lime);
-  --color-lime-strong: var(--lime);
-  --color-editorial-orange: var(--orange);
-  --color-editorial-orange-dark: var(--orange-strong);
-  --color-editorial-orange-soft: var(--orange);
-  --color-context-blue: var(--background-soft);
-  --font-sans: "DM Sans", Arial, sans-serif;
-  --font-editorial: "Syne", "Arial Narrow", sans-serif;
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-text-primary);
+  --color-surface: var(--color-surface);
+  --color-ink-soft: var(--color-text-secondary);
+  --color-muted: var(--color-text-secondary);
+  --color-line: var(--color-border);
+  --color-border: var(--color-border);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-lime: var(--green-100);
+  --color-lime-strong: var(--green-500);
+  --color-editorial-orange: var(--color-primary);
+  --color-editorial-orange-dark: var(--color-primary-hover);
+  --color-editorial-orange-soft: var(--green-50);
+  --color-context-blue: var(--slate-100);
+
+  --color-green-50: var(--green-50);
+  --color-green-100: var(--green-100);
+  --color-green-500: var(--green-500);
+  --color-green-600: var(--green-600);
+  --color-green-700: var(--green-700);
+
+  --color-slate-50: var(--slate-50);
+  --color-slate-100: var(--slate-100);
+  --color-slate-200: var(--slate-200);
+  --color-slate-500: var(--slate-500);
+  --color-slate-900: var(--slate-900);
+
+  --font-sans: var(--font-plus-jakarta, "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  --font-editorial: var(--font-plus-jakarta, "Plus Jakarta Sans", sans-serif);
 }
 
 * {
@@ -48,7 +96,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "DM Sans", Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.7;
 }
@@ -59,8 +107,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Syne", "Arial Narrow", sans-serif;
-  letter-spacing: -0.035em;
+  font-family: var(--font-sans);
+  letter-spacing: -0.025em;
 }
 
 button,
@@ -68,6 +116,7 @@ input,
 select,
 textarea {
   font: inherit;
+  border-radius: 0.375rem;
 }
 
 button,
@@ -79,7 +128,7 @@ textarea {
 }
 
 :focus-visible {
-  outline: 3px solid var(--orange-strong);
+  outline: 3px solid var(--color-primary);
   outline-offset: 4px;
 }
 

@@ -73,7 +73,7 @@ const SearchPage = () => {
     setSelectedCategory(category);
   };
 
-  if (status === "failed" && products.length === 0) return <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3" role="alert"><p>{error || "Impossible de charger les produits."}</p><button onClick={() => dispatch(fetchProducts())} className="bg-[#F98909] px-4 py-2 text-[#171B18]">Réessayer</button></div>;
+  if (status === "failed" && products.length === 0) return <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3" role="alert"><p>{error || "Impossible de charger les produits."}</p><button onClick={() => dispatch(fetchProducts())} className="bg-[#059669] px-4 py-2 text-[#0F172A] rounded-md">Réessayer</button></div>;
   if (isLoading) {
     return <SearchSkeleton />;
   }
@@ -82,13 +82,13 @@ const SearchPage = () => {
     <section className="pb-16 pt-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {status === "failed" && products.length > 0 && (
-          <div className="mb-6 border border-[#DCE1D8] bg-[#F5F5EF] p-3 text-sm text-[#171B18]" role="alert">
+          <div className="mb-6 border border-[#E2E8F0] bg-[#F8FAFC] p-3 text-sm text-[#0F172A] rounded-lg" role="alert">
             <p>{error || "Impossible d’actualiser les produits."}</p>
-            <button type="button" onClick={() => dispatch(fetchProducts())} className="mt-2 font-semibold text-[#CC6500] underline">Réessayer</button>
+            <button type="button" onClick={() => dispatch(fetchProducts())} className="mt-2 font-semibold text-[#047857] underline">Réessayer</button>
           </div>
         )}
         <div className="flex w-full items-center justify-center">
-          <motion.h1 {...scrollReveal("up", prefersReducedMotion)} className="text-3xl md:text-5xl font-extrabold text-[#F98909] mb-6 text-center ">
+          <motion.h1 {...scrollReveal("up", prefersReducedMotion)} className="text-3xl md:text-5xl font-extrabold text-[#059669] mb-6 text-center ">
             Recherche Facile, Résultats Parfaits
           </motion.h1>
         </div>
@@ -99,8 +99,8 @@ const SearchPage = () => {
               {...scrollReveal("left", prefersReducedMotion)}
               className="lg:w-64 flex-shrink-0 lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto"
             >
-              <div className="bg-white p-4 shadow-md">
-                <h2 className="text-xl font-semibold text-[#F98909] mb-4">
+              <div className="bg-white p-4 shadow-md rounded-xl">
+                <h2 className="text-xl font-semibold text-[#059669] mb-4">
                   Filtres
                 </h2>
 
@@ -112,7 +112,7 @@ const SearchPage = () => {
                     <select
                       value={selectedCategory}
                       onChange={(e) => handleCategoryChange(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F98909]"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669]"
                     >
                       {categories.map((category) => (
                         <option key={category} value={category}>
@@ -143,7 +143,7 @@ const SearchPage = () => {
                     <select
                       value={sortOption}
                       onChange={(e) => handleSortChange(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F98909]"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669]"
                     >
                       <option value="default">Par défaut</option>
                       <option value="price-low-high">Prix : croissant</option>
@@ -168,7 +168,7 @@ const SearchPage = () => {
                       placeholder="Rechercher un produit..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F98909] pl-10"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669] pl-10"
                     />
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   </div>
@@ -179,7 +179,7 @@ const SearchPage = () => {
               <Suspense fallback={<SearchSkeleton />}>
                 <motion.div
                   {...scrollReveal("right", prefersReducedMotion)}
-                  className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                  className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
                 >
                   {filteredProducts.length > 0 ? (
                     filteredProducts.map((product) => (
