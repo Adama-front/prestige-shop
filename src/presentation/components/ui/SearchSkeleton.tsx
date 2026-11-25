@@ -11,7 +11,7 @@ export function SearchSkeleton() {
       <div className="flex flex-col lg:flex-row gap-8">
       {/* Filtres Skeleton */}
       <div className="lg:w-64 flex-shrink-0">
-        <div className="space-y-6 rounded-sm border border-[#DCE1D8] bg-white p-4">
+        <div className="space-y-6 rounded-sm border border-[#E2E8F0] bg-white p-4">
           <Skeleton className="h-7 w-24 mb-4" />
           <div className="space-y-4">
             <Skeleton className="h-10 w-full" />
@@ -29,8 +29,8 @@ export function SearchSkeleton() {
         </div>
 
         {/* Grille de produits Skeleton */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {[...Array(8)].map((_, index) => (
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          {[...Array(10)].map((_, index) => (
             <ProductSkeleton key={index} />
           ))}
         </div>

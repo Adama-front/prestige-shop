@@ -1,16 +1,22 @@
 "use client";
 import Alert from "@/presentation/components/ui/Alert";
 import OptimizedImage from "@/presentation/components/ui/OptimizedImage";
-import { useAppSelector } from "@/application/store/hooks";
+import { clearCart } from "@/application/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/application/store/hooks";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createOrder } from "@/infrastructure/orders/OrderApiClient";
 import { formatXof } from "@/shared/utils/formatXof";
 import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
 
 const CheckoutContent = () => {
   const prefersReducedMotion = useReducedMotion();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const { items, total, shippingCost } = useAppSelector((state) => state.cart);
+  const idempotencyKey = useRef<string | null>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -22,6 +28,8 @@ const CheckoutContent = () => {
     additionalInfo: ""
   });
   const [showAlert, setShowAlert] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -33,9 +41,47 @@ const CheckoutContent = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setShowAlert(true);
+    if (isSubmitting || items.length === 0) return;
+
+    setIsSubmitting(true);
+    setShowAlert(false);
+    setSubmitError("");
+    idempotencyKey.current ??= crypto.randomUUID();
+
+    try {
+      const order = await createOrder(
+        {
+          items: items.map((item) => ({
+            productId: Number(item.id),
+            quantity: item.quantity
+          })),
+          deliveryAddress: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            phone: formData.phone1,
+            secondaryPhone: formData.phone2 || null,
+            city: formData.city,
+            district: formData.district,
+            address: formData.address,
+            additionalInfo: formData.additionalInfo || null
+          },
+          paymentMethod: "cash_on_delivery"
+        },
+        idempotencyKey.current
+      );
+
+      dispatch(clearCart());
+      router.push(`/checkout/confirmation?orderId=${encodeURIComponent(order.id)}`);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error ? error.message : "La commande n’a pas pu être créée."
+      );
+      setShowAlert(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const calculateTotal = () => {
@@ -52,7 +98,7 @@ const CheckoutContent = () => {
           <p className="max-w-xl text-gray-600">
             Ajoutez des produits à votre panier avant de préparer une commande.
           </p>
-          <Link href="/#products" className="bg-[#F98909] text-[#171B18] px-5 py-3 hover:bg-[#D9EC8B] transition-colors duration-300">
+          <Link href="/#products" className="bg-[#059669] text-[#0F172A] px-5 py-3 rounded-md hover:bg-[#D1FAE5] transition-colors duration-300">
             Explorer nos produits
           </Link>
         </div>
@@ -64,8 +110,8 @@ const CheckoutContent = () => {
     <>
       {showAlert && (
         <Alert
-          message="Aucune commande n’a été envoyée. Les informations saisies ne sont ni enregistrées ni transmises. La création de commande sera disponible après l’intégration du backend."
-          type="warning"
+          message={submitError}
+          type="error"
           duration={8000}
           onClose={() => setShowAlert(false)}
         />
@@ -79,7 +125,7 @@ const CheckoutContent = () => {
               </motion.h2>
             </div>
             <div className="w-full flex items-start">
-              <Link href="/cart" className="md:px-3 md:py-2 py-1.5 px-2 flex items-center gap-x-1 justify-center bg-[#F98909] text-[#171B18] duration-300 text-xs md:text-sm hover:bg-[#D9EC8B] transition-colors">
+              <Link href="/cart" className="md:px-3 md:py-2 py-1.5 px-2 flex items-center gap-x-1 justify-center bg-[#059669] text-[#0F172A] duration-300 text-xs md:text-sm rounded-md hover:bg-[#D1FAE5] transition-colors">
                 <svg
                   className="md:w-6 md:h-6 w-5 h-5"
                   aria-hidden="true"
@@ -105,7 +151,7 @@ const CheckoutContent = () => {
             <motion.div {...scrollReveal("up", prefersReducedMotion)} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Shipping Address Form */}
               <div className="lg:col-span-2">
-                <div className="bg-white  shadow-xl p-2 md:p-4">
+                <div className="bg-white shadow-xl p-2 md:p-4 rounded-lg">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     Adresse de livraison
                   </h3>
@@ -127,7 +173,7 @@ const CheckoutContent = () => {
                           autoComplete="given-name"
                           maxLength={80}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
+                          className="w-full px-3 py-2 border border-gray-300 shadow-sm rounded-md focus:outline-none focus:ring-[#059669] focus:border-[#059669]"
                         />
                       </div>
                       <div>
@@ -146,7 +192,7 @@ const CheckoutContent = () => {
                           autoComplete="family-name"
                           maxLength={80}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
+                          className="w-full px-3 py-2 border border-gray-300 shadow-sm rounded-md focus:outline-none focus:ring-[#059669] focus:border-[#059669]"
                         />
                       </div>
                     </div>
@@ -169,7 +215,7 @@ const CheckoutContent = () => {
                           inputMode="tel"
                           maxLength={24}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
+                          className="w-full px-3 py-2 border border-gray-300 shadow-sm rounded-md focus:outline-none focus:ring-[#059669] focus:border-[#059669]"
                         />
                       </div>
                       <div>
@@ -187,7 +233,7 @@ const CheckoutContent = () => {
                           onChange={handleChange}
                           inputMode="tel"
                           maxLength={24}
-                          className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
+                          className="w-full px-3 py-2 border border-gray-300 shadow-sm rounded-md focus:outline-none focus:ring-[#059669] focus:border-[#059669]"
                         />
                       </div>
                     </div>
@@ -209,7 +255,7 @@ const CheckoutContent = () => {
                           autoComplete="address-level2"
                           maxLength={100}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
+                          className="w-full px-3 py-2 border border-gray-300 shadow-sm rounded-md focus:outline-none focus:ring-[#059669] focus:border-[#059669]"
                         />
                       </div>
                       <div>
@@ -228,7 +274,7 @@ const CheckoutContent = () => {
                           autoComplete="address-level3"
                           maxLength={100}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
+                          className="w-full px-3 py-2 border border-gray-300 shadow-sm rounded-md focus:outline-none focus:ring-[#059669] focus:border-[#059669]"
                         />
                       </div>
                     </div>
@@ -249,7 +295,7 @@ const CheckoutContent = () => {
                         autoComplete="street-address"
                         maxLength={200}
                         required
-                        className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
+                        className="w-full px-3 py-2 border border-gray-300 shadow-sm rounded-md focus:outline-none focus:ring-[#059669] focus:border-[#059669]"
                       />
                     </div>
 
@@ -267,7 +313,7 @@ const CheckoutContent = () => {
                         onChange={handleChange}
                         maxLength={500}
                         rows={3}
-                        className="w-full px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-[#F98909] focus:border-[#F98909]"
+                        className="w-full px-3 py-2 border border-gray-300 shadow-sm rounded-md focus:outline-none focus:ring-[#059669] focus:border-[#059669]"
                         placeholder="Instructions de livraison, points de repère, etc."
                       />
                     </div>
@@ -275,9 +321,10 @@ const CheckoutContent = () => {
                     <div className="pt-4">
                       <button
                         type="submit"
-                        className="w-full bg-[#F98909] text-[#171B18] py-3 px-4 cursor-pointer hover:bg-[#D9EC8B] transition-colors duration-300"
+                        disabled={isSubmitting}
+                        className="w-full bg-[#059669] text-[#0F172A] py-3 px-4 rounded-md cursor-pointer hover:bg-[#D1FAE5] transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-60"
                       >
-                        Vérifier le formulaire
+                        {isSubmitting ? "Commande en cours…" : "Confirmer la commande"}
                       </button>
                     </div>
                   </form>
@@ -286,13 +333,13 @@ const CheckoutContent = () => {
 
               {/* Order Review */}
               <div className="lg:col-span-1">
-                <div className="bg-white shadow-xl p-2 md:p-4">
+                <div className="bg-white shadow-xl p-2 md:p-4 rounded-lg">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     Récapitulatif de votre commande
                   </h3>
 
                   {/* Payment Notice */}
-                  <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                  <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-md">
                     <div className="flex">
                       <div className="flex-shrink-0">
                         <svg
@@ -313,8 +360,8 @@ const CheckoutContent = () => {
                           Commande non envoyée
                         </p>
                         <p className="text-sm text-yellow-600 mt-1">
-                          Ce formulaire ne crée aucune commande et ne transmet
-                          aucune donnée. Cette étape sera activée avec le backend.
+                          Le paiement se fera à la livraison. Le total final est
+                          calculé par le serveur au moment de la confirmation.
                         </p>
                       </div>
                     </div>
@@ -329,7 +376,7 @@ const CheckoutContent = () => {
                     <div className="space-y-3 max-h-60 overflow-y-auto">
                       {items.map((item) => (
                         <div key={item.id} className="flex items-center">
-                          <div className="h-16 w-16 flex-shrink-0 bg-gray-100 overflow-hidden">
+                          <div className="h-16 w-16 flex-shrink-0 bg-gray-100 overflow-hidden rounded-md">
                             <OptimizedImage
                               src={item.image}
                               alt={item.name}
@@ -341,7 +388,7 @@ const CheckoutContent = () => {
                               <div className="w-full">
                                 <Link
                                   href={`/products/${item.id}`}
-                                  className="text-sm font-medium text-gray-900 hover:text-[#F98909] duration-300 transition-colors"
+                                  className="text-sm font-medium text-gray-900 hover:text-[#059669] duration-300 transition-colors"
                                 >
                                   {item.name.split(" ").slice(0, 4).join(" ") +
                                     (item.name.split(" ").length > 3
@@ -395,7 +442,7 @@ const CheckoutContent = () => {
                           <span className="text-base font-semibold text-gray-900">
                             Total
                           </span>
-                          <span className="text-base font-semibold text-[#F98909]">
+                          <span className="text-base font-semibold text-[#059669]">
                             {formatXof(calculateTotal())}
                           </span>
                         </div>

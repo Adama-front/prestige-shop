@@ -49,15 +49,16 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
-        state.status = "loading";
+        if (state.items.length === 0) state.status = "loading";
         state.error = null;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
+        state.error = null;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
-        state.status = "failed";
+        state.status = state.items.length > 0 ? "succeeded" : "failed";
         state.error =
           action.error.message || "Erreur lors du chargement des produits";
       })

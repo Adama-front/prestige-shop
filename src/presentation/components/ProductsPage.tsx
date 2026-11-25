@@ -49,17 +49,17 @@ const ProductsPage = () => {
   if (status === "loading")
     return (
       <div className="flex justify-center items-center min-h-screen" role="status" aria-busy="true" aria-label="Chargement des produits">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#F98909]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#059669]"></div>
       </div>
     );
 
   if (status === "failed")
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="text-center text-[#171B18]">
+        <div className="text-center text-[#0F172A]">
           <p className="text-xl font-semibold">Erreur de chargement</p>
           <p className="text-gray-600">{error}</p>
-          <button onClick={() => dispatch(fetchProducts())} className="mt-4 bg-[#F98909] px-4 py-2 text-[#171B18]">Réessayer</button>
+          <button onClick={() => dispatch(fetchProducts())} className="mt-4 bg-[#059669] px-4 py-2 text-[#0F172A]">Réessayer</button>
         </div>
       </div>
     );
@@ -74,7 +74,7 @@ const ProductsPage = () => {
             placeholder="Rechercher un produit..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F98909] focus:border-transparent"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669] focus:border-transparent"
           />
           <svg
             className="absolute right-3 top-2.5 h-5 w-5 text-gray-400"
@@ -96,7 +96,7 @@ const ProductsPage = () => {
             onClick={() => setSelectedCategory(null)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               !selectedCategory
-                ? "bg-[#F98909] text-[#171B18]"
+                ? "bg-[#059669] text-[#0F172A]"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
@@ -108,7 +108,7 @@ const ProductsPage = () => {
               onClick={() => handleCategoryClick(category)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 selectedCategory === category
-                  ? "bg-[#F98909] text-[#171B18]"
+                  ? "bg-[#059669] text-[#0F172A]"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -120,7 +120,7 @@ const ProductsPage = () => {
         <div className="flex justify-end">
           <select
             onChange={handleSortChange}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F98909] focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669] focus:border-transparent"
           >
             <option value="">Trier par prix</option>
             <option value="price-low-high">Prix croissant</option>
@@ -130,7 +130,7 @@ const ProductsPage = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {filteredProducts.map((product: Product) => (
           <CardProduct key={product.id} product={product} />
         ))}

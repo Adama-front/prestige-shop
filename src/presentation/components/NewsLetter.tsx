@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { Mail } from "lucide-react";
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
@@ -45,7 +45,7 @@ export function Newsletter() {
                     className={`mt-3 text-sm text-gray-700 ${
                       message === "Veuillez entrer un email valide."
                         ? "text-red-600"
-                        : "text-[#CC6500]"
+                        : "text-[#047857]"
                     }`}
                   >
                     {message}
@@ -55,7 +55,7 @@ export function Newsletter() {
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="email"
-                className="w-full pl-10 p-2 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-[#F98909]"
+                className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669]"
                 placeholder="Votre email..."
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -63,7 +63,7 @@ export function Newsletter() {
             </div>
             <button
               type="submit"
-              className="bg-[#F98909] text-[#171B18] px-4 py-2  duration-300 cursor-pointer hover:bg-[#D9EC8B] transition-colors"
+              className="bg-[#059669] text-[#0F172A] px-4 py-2 rounded-md duration-300 cursor-pointer hover:bg-[#D1FAE5] transition-colors"
             >
               S&apos;inscrire
             </button>

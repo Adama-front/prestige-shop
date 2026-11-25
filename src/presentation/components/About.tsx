@@ -116,7 +116,7 @@ const About = () => {
             className="text-center"
             {...scrollReveal("up", prefersReducedMotion)}
           >
-            <h1 className="text-4xl md:text-6xl font-extrabold text-[#F98909] mb-6 ">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-[#059669] mb-6 ">
               Qui Sommes-Nous
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
@@ -141,11 +141,11 @@ const About = () => {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ ...revealTransition, delay: prefersReducedMotion ? 0 : index * motionTokens.stagger }}
                 whileHover={prefersReducedMotion ? undefined : { y: -5 }}
-                className="bg-white p-4  shadow-md hover:shadow-lg transition-shadow"
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border border-[#E2E8F0]"
               >
                 <div className="flex items-center justify-center flex-col mb-2 gap-y-1">
-                  <div className="text-[#F98909] mr-3">{feature.icon}</div>
-                  <h3 className="text-xl font-semibold text-[#F98909]">
+                  <div className="text-[#059669] mr-3">{feature.icon}</div>
+                  <h3 className="text-xl font-semibold text-[#059669]">
                     {feature.title}
                   </h3>
                 </div>
@@ -159,7 +159,7 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-[#E8EBE3]">
+      <section className="py-16 bg-[#F1F5F9]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {stats.map((stat, index) => (
@@ -169,9 +169,9 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ ...revealTransition, delay: prefersReducedMotion ? 0 : index * motionTokens.stagger }}
-                className="bg-white p-4  shadow-md"
+                className="bg-white p-6 rounded-xl shadow-md border border-[#E2E8F0]"
               >
-                <h3 className="text-4xl font-bold text-[#F98909] mb-2">
+                <h3 className="text-4xl font-bold text-[#059669] mb-2">
                   {stat.number}
                 </h3>
                 <p className="text-gray-600">{stat.label}</p>
@@ -185,7 +185,7 @@ const About = () => {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
-            className="text-3xl font-bold text-center text-[#F98909] mb-10"
+            className="text-3xl font-bold text-center text-[#059669] mb-10"
             initial={{ opacity: 0, y: revealDistance }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -212,7 +212,7 @@ const About = () => {
                         : "w-1/3"
                     }`}
                   >
-                    <div className="bg-white shadow-lg overflow-hidden">
+                    <div className="bg-white shadow-lg overflow-hidden rounded-xl border border-[#E2E8F0]">
                       <div className="w-full h-64 md:h-96 relative">
                         <Image
                           src={member.image}
@@ -223,7 +223,7 @@ const About = () => {
                         />
                       </div>
                       <div className="p-4 text-center">
-                        <h3 className="text-xl font-semibold text-[#F98909] mb-2">
+                        <h3 className="text-xl font-semibold text-[#059669] mb-2">
                           {member.name}
                         </h3>
                         <p className="text-gray-600">{member.role}</p>
@@ -235,7 +235,7 @@ const About = () => {
             </div>
             <button
               onClick={prevSlide}
-              className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#F98909] text-[#171B18] p-1  hover:bg-[#D9EC8B]  cursor-pointer transition-colors"
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#059669] text-[#0F172A] p-2 rounded-full hover:bg-[#D1FAE5] cursor-pointer transition-colors shadow-md"
             >
               <svg
                 className="w-6 h-6"
@@ -253,7 +253,7 @@ const About = () => {
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#F98909] text-[#171B18] p-1 hover:bg-[#D9EC8B]  cursor-pointer transition-colors"
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#059669] text-[#0F172A] p-2 rounded-full hover:bg-[#D1FAE5] cursor-pointer transition-colors shadow-md"
             >
               <svg
                 className="w-6 h-6"
@@ -277,7 +277,7 @@ const About = () => {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
-            className="text-3xl font-bold text-center text-[#F98909] mb-10"
+            className="text-3xl font-bold text-center text-[#059669] mb-10"
             initial={{ opacity: 0, y: revealDistance }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -290,9 +290,9 @@ const About = () => {
               viewport={{ once: true }}
               transition={revealTransition}
               whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
-              className="bg-white p-6  shadow-md text-center"
+              className="bg-white p-6 rounded-xl shadow-md text-center border border-[#E2E8F0]"
             >
-              <h3 className="text-xl font-semibold text-[#F98909] mb-4">
+              <h3 className="text-xl font-semibold text-[#059669] mb-4">
                 Innovation
               </h3>
               <p className="text-gray-700">
@@ -306,9 +306,9 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ ...revealTransition, delay: prefersReducedMotion ? 0 : motionTokens.stagger }}
               whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
-              className="bg-white p-6  shadow-md text-center"
+              className="bg-white p-6 rounded-xl shadow-md text-center border border-[#E2E8F0]"
             >
-              <h3 className="text-xl font-semibold text-[#F98909] mb-4">
+              <h3 className="text-xl font-semibold text-[#059669] mb-4">
                 Qualité
               </h3>
               <p className="text-gray-700">
@@ -322,9 +322,9 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ ...revealTransition, delay: prefersReducedMotion ? 0 : motionTokens.stagger * 2 }}
               whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
-              className="bg-white p-6  shadow-md text-center"
+              className="bg-white p-6 rounded-xl shadow-md text-center border border-[#E2E8F0]"
             >
-              <h3 className="text-xl font-semibold text-[#F98909] mb-4">
+              <h3 className="text-xl font-semibold text-[#059669] mb-4">
                 Satisfaction Client
               </h3>
               <p className="text-gray-700">

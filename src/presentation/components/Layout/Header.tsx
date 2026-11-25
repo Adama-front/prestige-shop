@@ -36,12 +36,12 @@ const Header = () => {
   ];
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-[#F5F5EF] shadow-md z-[9000]">
+    <div className="fixed top-0 left-0 right-0 bg-[#F8FAFC] shadow-md z-[9000]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-x-1">
-            <div className="w-7 h-7 md:w-9 md:h-9 bg-[#F98909] text-[#171B18] flex items-center justify-center rounded-md">
+            <div className="w-7 h-7 md:w-9 md:h-9 bg-[#059669] text-[#0F172A] flex items-center justify-center rounded-md">
               <svg
                 className="w-5 h-5 md:w-7 md:h-7"
                 aria-hidden="true"
@@ -60,7 +60,7 @@ const Header = () => {
             </div>
             <Link
               href="/"
-              className="md:text-2xl text-xl font-bold text-[#F98909]"
+              className="md:text-2xl text-xl font-bold text-[#059669]"
             >
               PrestigeShop{" "}
             </Link>
@@ -77,17 +77,17 @@ const Header = () => {
                 >
                   {item.items ? (
                     <>
-                      <button className="flex items-center px-3 py-2 text-gray-700 transition-colors duration-300 hover:text-[#F98909]">
+                      <button className="flex items-center px-3 py-2 text-gray-700 transition-colors duration-300 hover:text-[#059669]">
                         {item.title}
                         <ChevronDown className="w-4 h-4 ml-1" />
                       </button>{" "}
                       {activeDropdown === item.title && (
-                        <div className="absolute left-0 w-56 bg-white shadow-lg">
+                        <div className="absolute left-0 w-56 bg-white shadow-lg rounded-lg overflow-hidden border border-[#E2E8F0]">
                           {item.items.map((subItem) => (
                             <Link
                               key={subItem.href}
                               href={subItem.href}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#E8EBE3] transition-colors duration-300  hover:text-[#F98909]"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#F1F5F9] transition-colors duration-300  hover:text-[#059669]"
                             >
                               {subItem.label}
                             </Link>
@@ -98,7 +98,7 @@ const Header = () => {
                   ) : (
                     <Link
                       href={item.path!}
-                      className="px-3 py-2 text-gray-700 hover:text-[#F98909] transition-colors duration-300 "
+                      className="px-3 py-2 text-gray-700 hover:text-[#059669] transition-colors duration-300 "
                     >
                       {item.title}
                     </Link>
@@ -161,7 +161,7 @@ const Header = () => {
                           <Link
                             key={subItem.href}
                             href={subItem.href}
-                            className="block px-3 py-2 rounded-md text-base text-gray-700 hover:text-[#F98909] hover:bg-[#E8EBE3] transition-colors duration-300"
+                            className="block px-3 py-2 rounded-md text-base text-gray-700 hover:text-[#059669] hover:bg-[#F1F5F9] transition-colors duration-300"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             {subItem.label}
@@ -172,7 +172,7 @@ const Header = () => {
                   ) : (
                     <Link
                       href={item.path!}
-                      className="block px-3 py-2 rounded-md text-base text-gray-700 hover:text-[#F98909] hover:bg-[#E8EBE3] transition-colors duration-300"
+                      className="block px-3 py-2 rounded-md text-base text-gray-700 hover:text-[#059669] hover:bg-[#F1F5F9] transition-colors duration-300"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {item.title}

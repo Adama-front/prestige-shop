@@ -1,3 +1,3 @@
-import { FakeStoreProductRepository } from "@/infrastructure/catalog/FakeStoreProductRepository";
+import { CatalogApiProductRepository } from "@/infrastructure/catalog/CatalogApiProductRepository";
 
-export const productRepository = new FakeStoreProductRepository();
+export const productRepository = new CatalogApiProductRepository();

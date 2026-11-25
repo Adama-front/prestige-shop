@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { ChevronDown } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { scrollReveal } from "@/shared/motion/motionTokens";
@@ -29,7 +29,7 @@ const HeroNewArrivals = () => {
         onClick={scrollToServices}
       >
         <span className="text-sm text-gray-400 mb-2">Découvrir</span>
-        <ChevronDown className="h-6 w-6 text-[#F98909]" />
+        <ChevronDown className="h-6 w-6 text-[#059669]" />
       </div>
     </section>
   );

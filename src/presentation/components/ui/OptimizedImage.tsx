@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { useState } from "react";
@@ -20,7 +20,7 @@ const OptimizedImage = ({ src, alt, className = "" }: OptimizedImageProps) => {
       {isLoading && (
         <div
           aria-hidden="true"
-          className="absolute inset-0 animate-pulse rounded-sm bg-[#E8EBE3] ring-1 ring-inset ring-[#DCE1D8] motion-reduce:animate-none"
+          className="absolute inset-0 animate-pulse rounded-sm bg-[#F1F5F9] ring-1 ring-inset ring-[#E2E8F0] motion-reduce:animate-none"
         />
       )}
       <Image

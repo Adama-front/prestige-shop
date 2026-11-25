@@ -15,7 +15,7 @@ const ListProducts = () => {
   const dispatch = useAppDispatch();
   const prefersReducedMotion = useReducedMotion();
   const { items, status, error } = useAppSelector((state) => state.products);
-  const isProductsLoading = status === "idle" || status === "loading";
+  const isProductsLoading = items.length === 0 && (status === "idle" || status === "loading");
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sortValue, setSortValue] = useState("");
@@ -44,13 +44,13 @@ const ListProducts = () => {
     return matchesCategory;
   }).sort((a, b) => sortValue === "price-low-high" ? a.price - b.price : sortValue === "price-high-low" ? b.price - a.price : 0);
 
-  if (status === "failed")
+  if (status === "failed" && items.length === 0)
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-red-500 text-center">
           <p className="text-xl font-semibold">Erreur de chargement</p>
           <p className="text-gray-600">{error}</p>
-          <button onClick={() => dispatch(fetchProducts())} className="mt-3 bg-[#F98909] px-4 py-2 text-[#171B18]">Réessayer</button>
+          <button onClick={() => dispatch(fetchProducts())} className="mt-3 bg-[#059669] px-4 py-2 text-[#0F172A] rounded-md">Réessayer</button>
         </div>
       </div>
     );
@@ -63,6 +63,12 @@ const ListProducts = () => {
     >
       <div className="max-w-6xl mx-auto  px-4 sm:px-6 lg:px-8">
         <div className="w-full flex flex-col items-center justify-center gap-y-6">
+          {status === "failed" && items.length > 0 && (
+            <div className="w-full border border-[#E2E8F0] bg-[#F8FAFC] p-3 text-sm text-[#0F172A] rounded-lg" role="alert">
+              <p>{error || "Impossible d’actualiser les produits."}</p>
+              <button type="button" onClick={() => dispatch(fetchProducts())} className="mt-2 font-semibold text-[#047857] underline">Réessayer</button>
+            </div>
+          )}
           <div className="flex w-full items-center justify-center">
             {isProductsLoading ? (
               <Skeleton className="h-8 w-72 max-w-[90vw] md:h-10" />
@@ -87,9 +93,9 @@ const ListProducts = () => {
               ) : (
                 <button
                 onClick={() => setSelectedCategory(null)}
-                className={`px-4 py-2 text-sm font-medium transition-colors cursor-pointer duration-300 ${
+                className={`px-4 py-2 text-sm font-medium transition-colors cursor-pointer duration-300 rounded-md ${
                   !selectedCategory
-                    ? "bg-[#F98909] text-[#171B18]"
+                    ? "bg-[#059669] text-[#0F172A]"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -100,10 +106,10 @@ const ListProducts = () => {
                 <button
                   key={category}
                   onClick={() => handleCategoryClick(category)}
-                  className={`px-4 py-2 cursor-pointer  text-sm font-medium transition-colors duration-300 ${
+                  className={`px-4 py-2 cursor-pointer text-sm font-medium transition-colors duration-300 rounded-md ${
                     selectedCategory === category
-                      ? "bg-[#F98909] text-[#171B18]"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200 "
+                      ? "bg-[#059669] text-[#0F172A]"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   {category}
@@ -118,7 +124,7 @@ const ListProducts = () => {
               ) : (
                 <select
                 onChange={handleSortChange}
-                className="px-4 py-2 duration-300 transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-[#F98909] focus:border-transparent"
+                className="px-4 py-2 duration-300 transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669] focus:border-transparent"
               >
                 <option value="">Trier par prix</option>
                 <option value="price-low-high">Prix croissant</option>
@@ -131,16 +137,16 @@ const ListProducts = () => {
           {/* Products Grid */}
           {isProductsLoading ? (
             <div
-              className="grid w-full grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+              className="grid w-full grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
               role="status"
               aria-label="Chargement des produits"
             >
-              {[...Array(8)].map((_, index) => (
+              {[...Array(10)].map((_, index) => (
                 <ProductSkeleton key={index} />
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {filteredProducts.map((product: Product) => (
                 <CardProduct key={product.id} product={product} />
               ))}
@@ -151,7 +157,7 @@ const ListProducts = () => {
           {!isProductsLoading && filteredProducts.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-500 text-lg">
-                Aucun produit ne correspond à votre recherche
+                {selectedCategory ? "Aucun produit dans cette catégorie." : "Aucun produit disponible pour le moment."}
               </p>
             </div>
           )}

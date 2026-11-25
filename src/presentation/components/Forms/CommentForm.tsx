@@ -39,9 +39,9 @@ const CommentForm = ({ onSubmit }: CommentFormProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl mx-auto bg-white p-4 shadow-md"
+      className="w-full max-w-2xl mx-auto bg-white p-4 shadow-md rounded-xl"
     >
-      <h3 className="md:text-2xl text-xl font-semibold text-[#F98909] mb-4">
+      <h3 className="md:text-2xl text-xl font-semibold text-[#059669] mb-4">
         Laisser un commentaire
       </h3>
 
@@ -79,7 +79,7 @@ const CommentForm = ({ onSubmit }: CommentFormProps) => {
           id="product-comment"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F98909]"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#059669]"
           rows={4}
           placeholder="Partagez votre expérience avec ce produit..."
         />
@@ -89,7 +89,7 @@ const CommentForm = ({ onSubmit }: CommentFormProps) => {
 
       <button
         type="submit"
-        className="w-full bg-[#F98909] text-[#171B18] py-2 px-4 cursor-pointercursor-pointer  hover:bg-[#D9EC8B] transition-colors duration-300"
+        className="w-full bg-[#059669] text-[#0F172A] py-2 px-4 cursor-pointer rounded-md hover:bg-[#D1FAE5] transition-colors duration-300"
       >
         Publier le commentaire
       </button>

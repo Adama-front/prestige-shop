@@ -1,8 +1,15 @@
 import ScrollToTop from "@/presentation/components/ScrollToTop";
 import SiteChrome from "@/presentation/components/Layout/SiteChrome";
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/presentation/providers/StoreProvider";
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: "PrestigeShop",
@@ -16,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={plusJakartaSans.variable}>
       <body className="antialiased">
         <StoreProvider>
           <SiteChrome>{children}</SiteChrome>

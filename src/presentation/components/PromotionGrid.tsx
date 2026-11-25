@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion, useReducedMotion } from "motion/react";
 import Image, { StaticImageData } from "next/image";
@@ -20,7 +20,7 @@ const PromotionCard = ({ promotion }: { promotion: Promotion }) => {
   return (
     <motion.div
       {...scrollReveal("up", prefersReducedMotion)}
-      className="group overflow-hidden w-full h-full shadow-lg relative "
+      className="group overflow-hidden rounded-lg w-full h-full shadow-lg relative "
     >
       <Image
         src={promotion.image}
@@ -34,7 +34,7 @@ const PromotionCard = ({ promotion }: { promotion: Promotion }) => {
           <motion.span
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="bg-[var(--context-blue)] text-[#151914] px-2 md:px-3 py-1.5 text-xs font-bold mb-2"
+            className="bg-[var(--context-blue)] text-[#0F172A] rounded-md px-2 md:px-3 py-1.5 text-xs font-bold mb-2"
           >
             {promotion.discount}
           </motion.span>
@@ -47,7 +47,7 @@ const PromotionCard = ({ promotion }: { promotion: Promotion }) => {
         )}
         <Link
           href={promotion.link}
-          className="text-[#171B18] font-bold bg-[#F98909] px-4 py-2 text-sm  transition-all duration-300 hover:bg-[#D9EC8B] hover:scale-105 flex items-center"
+          className="text-[#0F172A] font-bold bg-[#059669] rounded-md px-4 py-2 text-sm  transition-all duration-300 hover:bg-[#D1FAE5] hover:scale-105 flex items-center"
         >
           Shop Now
         </Link>

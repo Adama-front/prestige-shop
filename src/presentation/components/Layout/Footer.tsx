@@ -1,14 +1,14 @@
-import { ChevronRight, Mail, MapPin, Phone } from "lucide-react";
+﻿import { ChevronRight, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="left-0 right-0 bg-[#171B18] text-[#F5F5EF] border-t border-[#DCE1D8]">
+    <footer className="left-0 right-0 bg-[#0F172A] text-[#F8FAFC] border-t border-[#E2E8F0]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col items-start gap-y-4">
             <div className="flex items-center gap-x-1">
-              <div className="w-7 h-7 md:w-9 md:h-9 bg-[#F98909] text-[#171B18] flex items-center justify-center rounded-md">
+              <div className="w-7 h-7 md:w-9 md:h-9 bg-[#059669] text-[#0F172A] flex items-center justify-center rounded-md">
                 <svg
                   className="w-5 h-5 md:w-7 md:h-7"
                   aria-hidden="true"
@@ -27,7 +27,7 @@ const Footer = () => {
               </div>
               <Link
                 href="/"
-                className="md:text-2xl text-xl font-bold text-[#F98909]"
+                className="md:text-2xl text-xl font-bold text-[#059669]"
               >
                 PrestigeShop{" "}
               </Link>
@@ -36,10 +36,10 @@ const Footer = () => {
               Découvrez des produits de qualité aux meilleurs prix avec une
               expérience d&apos;achat sécurisée.
             </p>
-            <p className="text-sm text-[#DCE1D8]">Réseaux sociaux bientôt disponibles</p>
+            <p className="text-sm text-[#E2E8F0]">Réseaux sociaux bientôt disponibles</p>
           </div>
           <div className="flex flex-col items-start gap-y-4">
-          <h3 className="text-xl font-bold text-[#D9EC8B]">Liens Rapides</h3>
+          <h3 className="text-xl font-bold text-[#D1FAE5]">Liens Rapides</h3>
             <ul className="space-y-2">
               {[
                 { href: "/about", label: "À Propos" },
@@ -56,7 +56,7 @@ const Footer = () => {
                   </div>
                   <Link
                     href={item.href}
-                    className="group-hover:translate-x-2 transition-transform duration-300 hover:text-[#D9EC8B]"
+                    className="group-hover:translate-x-2 transition-transform duration-300 hover:text-[#D1FAE5]"
                   >
                     {item.label}
                   </Link>
@@ -65,7 +65,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="flex flex-col items-start gap-y-4">
-            <h3 className="text-xl font-bold text-[#D9EC8B]">Contactez-nous</h3>
+            <h3 className="text-xl font-bold text-[#D1FAE5]">Contactez-nous</h3>
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
                 <Mail className="w-5 h-5 " />

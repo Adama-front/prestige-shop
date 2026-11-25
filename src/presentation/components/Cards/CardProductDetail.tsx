@@ -69,12 +69,12 @@ const CardProductDetail = ({ product }: CardProductDetailProps) => {
       )}
       <div className="w-full flex flex-col gap-y-20">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
-          <div className="w-full  bg-white flex items-center justify-center">
+          <div className="w-full bg-white rounded-lg border border-[#E2E8F0] p-4 flex items-center justify-center">
             <div className="relative w-full h-full flex items-center justify-center">
               <OptimizedImage
                 src={product.image}
                 alt={product.title}
-                className="shadow-lg object-contain h-[300px] md:h-[400px]"
+                className="shadow-md rounded-md object-contain h-[300px] md:h-[400px]"
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ const CardProductDetail = ({ product }: CardProductDetailProps) => {
 
             <div className="w-full flex items-center gap-x-1">
               <div className=" flex items-center gap-x-1">
-                {Array.from({ length: Math.round(product.rating.rate) }).map((_, index) => (
+                {Array.from({ length: Math.round(product.rating.rate ?? 0) }).map((_, index) => (
                   <div key={index}>
                     <span className="text-amber-300">
                       <svg
@@ -104,11 +104,15 @@ const CardProductDetail = ({ product }: CardProductDetailProps) => {
                   </div>
                 ))}
               </div>
-              <p className="text-gray-600 text-sm">({product.rating.count} avis)</p>
+              <p className="text-gray-600 text-sm">
+                {product.rating.count > 0
+                  ? `(${product.rating.count} avis)`
+                  : "Aucun avis"}
+              </p>
             </div>
 
             <div className="w-full flex items-center justify-between">
-              <p className="text-2xl font-bold text-[#F98909]">
+              <p className="text-2xl font-bold text-[#059669]">
                 {formatXof(product.price)}
               </p>
 
@@ -117,7 +121,7 @@ const CardProductDetail = ({ product }: CardProductDetailProps) => {
                   type="button"
                   onClick={handleShare}
                   aria-label="Partager ce produit"
-                  className="w-9 h-9 md:w-10 md:h-10 p-1 flex items-center justify-center text-[#F98909] hover:text-[#171B18] bg-[#E8EBE3] hover:bg-[#F98909] duration-300 transition-colors"
+                  className="w-9 h-9 md:w-10 md:h-10 p-1 flex items-center justify-center text-[#059669] hover:text-[#0F172A] bg-[#F1F5F9] hover:bg-[#059669] duration-300 transition-colors"
                 >
                   <svg
                     className="w-[25px] h-[25px] "
@@ -138,7 +142,7 @@ const CardProductDetail = ({ product }: CardProductDetailProps) => {
                 </button>{" "}
                 <div
                   onClick={handleHeartClick}
-                  className="w-9 h-9 md:w-10 md:h-10  p-1 flex items-center justify-center text-[#F98909] hover:text-white bg-gray-100 hover:bg-[#F98909] duration-300 transition-colors"
+                  className="w-9 h-9 md:w-10 md:h-10 p-1 rounded-md flex items-center justify-center text-[#059669] hover:text-white bg-gray-100 hover:bg-[#059669] duration-300 transition-colors cursor-pointer"
                 >
                   {heart ? (
                     <svg
@@ -187,7 +191,7 @@ const CardProductDetail = ({ product }: CardProductDetailProps) => {
             <div className="w-full pt-5">
               <button
                 onClick={handleAddToCart}
-                className="text-[#171B18] w-full cursor-pointer md:text-lg bg-[#F98909] px-4 py-2 hover:bg-[#D9EC8B] transition-colors duration-300 flex items-center justify-center gap-2"
+                className="text-[#0F172A] w-full cursor-pointer md:text-lg bg-[#059669] rounded-md px-4 py-2 hover:bg-[#D1FAE5] transition-colors duration-300 flex items-center justify-center gap-2"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -209,8 +213,8 @@ const CardProductDetail = ({ product }: CardProductDetailProps) => {
             </h2>
           </div>
           {/* Products Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.slice(0, 4).map((product: Product) => (
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {filteredProducts.slice(0, 5).map((product: Product) => (
               <CardProduct key={product.id} product={product} />
             ))}
           </div>
